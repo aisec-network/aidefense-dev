@@ -1,0 +1,129 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import AffiliateDisclosure from "@components/AffiliateDisclosure.astro";
+import NewsletterSignup from "@components/NewsletterSignup.astro";
+import { siteConfig } from "@config/site";
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    pubDate: Date;
+    updatedDate?: Date;
+    author?: string;
+    tags?: string[];
+    category?: string;
+    heroImage?: string;
+    heroAlt?: string;
+    canonical?: string;
+    sources?: { title: string; url: string }[];
+    affiliateDisclosure?: boolean;
+    schema?: { type: string };
+  };
+  url: string;
+}
+
+const { frontmatter, url } = Astro.props;
+const author = frontmatter.author || siteConfig.byline;
+const schemaType = frontmatter.schema?.type || "Article";
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": schemaType,
+  headline: frontmatter.title,
+  description: frontmatter.description,
+  datePublished: frontmatter.pubDate.toISOString(),
+  dateModified: (frontmatter.updatedDate || frontmatter.pubDate).toISOString(),
+  author: { "@type": "Organization", name: author, url: siteConfig.url },
+  publisher: {
+    "@type": "Organization",
+    name: siteConfig.title,
+    url: siteConfig.url,
+  },
+  mainEntityOfPage: { "@type": "WebPage", "@id": new URL(url, siteConfig.url).toString() },
+  ...(frontmatter.heroImage && { image: new URL(frontmatter.heroImage, siteConfig.url).toString() }),
+  ...(frontmatter.tags?.length && { keywords: frontmatter.tags.join(", ") }),
+};
+---
+
+<BaseLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  image={frontmatter.heroImage}
+  canonical={frontmatter.canonical}
+  type="article"
+  publishedTime={frontmatter.pubDate}
+  modifiedTime={frontmatter.updatedDate}
+  author={author}
+  tags={frontmatter.tags}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <article class="mx-auto">
+    <header class="mb-8 not-prose">
+      {frontmatter.category && (
+        <a href={`/category/${frontmatter.category}`} class="text-xs uppercase tracking-wider text-accent-600 font-medium">
+          {frontmatter.category}
+        </a>
+      )}
+      <h1 class="font-display font-bold text-3xl sm:text-4xl mt-2 leading-tight">
+        {frontmatter.title}
+      </h1>
+      <p class="text-muted mt-3 text-lg">{frontmatter.description}</p>
+      <div class="text-sm text-muted mt-4 flex flex-wrap gap-3">
+        <span>By {author}</span>
+        <span>·</span>
+        <time datetime={frontmatter.pubDate.toISOString()}>
+          {frontmatter.pubDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+        </time>
+        {frontmatter.updatedDate && (
+          <>
+            <span>·</span>
+            <span>Updated {frontmatter.updatedDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
+          </>
+        )}
+      </div>
+    </header>
+
+    {frontmatter.heroImage && (
+      <img
+        src={frontmatter.heroImage}
+        alt={frontmatter.heroAlt || frontmatter.title}
+        class="rounded-lg mb-8 w-full"
+        loading="eager"
+        decoding="async"
+      />
+    )}
+
+    {frontmatter.affiliateDisclosure && <AffiliateDisclosure />}
+
+    <div class="prose dark:prose-invert max-w-none">
+      <slot />
+    </div>
+
+    {frontmatter.sources && frontmatter.sources.length > 0 && (
+      <section class="mt-10 pt-6 border-t border-default not-prose">
+        <h2 class="font-display font-bold text-base mb-3">Sources</h2>
+        <ol class="text-sm text-muted space-y-1 list-decimal pl-5">
+          {frontmatter.sources.map((s) => (
+            <li>
+              <a href={s.url} rel="noopener nofollow" class="hover:text-accent-600">{s.title}</a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+    {frontmatter.tags && frontmatter.tags.length > 0 && (
+      <div class="mt-8 flex flex-wrap gap-2 not-prose">
+        {frontmatter.tags.map((t) => (
+          <a href={`/tag/${t}`} class="text-xs px-2 py-1 bg-muted text-muted rounded hover:text-accent-600 transition">
+            #{t}
+          </a>
+        ))}
+      </div>
+    )}
+
+    <NewsletterSignup />
+  </article>
+</BaseLayout>

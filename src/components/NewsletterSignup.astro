@@ -1,0 +1,68 @@
+---
+import { siteConfig } from "@config/site";
+const enabled = siteConfig.newsletter.enabled;
+const endpoint = "https://subscribe.aisec.blog/subscribe";
+const site = siteConfig.domain;
+---
+
+{enabled && (
+  <section class="my-10 p-6 border border-default rounded-lg bg-muted" data-newsletter>
+    <h3 class="font-display font-bold text-lg">Subscribe</h3>
+    <p class="text-muted mt-1 text-sm">{siteConfig.tagline} — delivered when there's something worth your inbox.</p>
+    <form
+      method="POST"
+      action={endpoint}
+      class="mt-4 flex flex-col sm:flex-row gap-2"
+      data-newsletter-form
+    >
+      <input type="hidden" name="site" value={site} />
+      <input
+        type="email"
+        name="email"
+        required
+        autocomplete="email"
+        placeholder="you@domain.com"
+        class="flex-1 px-3 py-2 rounded-md border border-default bg-[rgb(var(--bg))] focus:outline-none focus:ring-2 focus:ring-accent-500"
+      />
+      <button
+        type="submit"
+        class="px-4 py-2 rounded-md bg-accent-600 text-white font-medium hover:bg-accent-700 transition"
+      >
+        Subscribe
+      </button>
+    </form>
+    <p class="text-xs text-muted mt-2" data-newsletter-status>No spam. Unsubscribe anytime.</p>
+  </section>
+)}
+
+{enabled && (
+  <script is:inline define:vars={{ endpoint, site }}>
+    document.querySelectorAll("[data-newsletter-form]").forEach((form) => {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const root = form.closest("[data-newsletter]");
+        const status = root?.querySelector("[data-newsletter-status]");
+        const emailInput = form.querySelector('input[name="email"]');
+        const email = emailInput?.value?.trim();
+        if (!email) return;
+        if (status) status.textContent = "Subscribing…";
+        try {
+          const res = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, site, source_url: location.href }),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data.ok) {
+            if (status) status.textContent = "Thanks — you're subscribed.";
+            form.reset();
+          } else {
+            if (status) status.textContent = "Couldn't subscribe (" + (data.error || res.status) + "). Try again.";
+          }
+        } catch (err) {
+          if (status) status.textContent = "Network error. Try again.";
+        }
+      });
+    });
+  </script>
+)}

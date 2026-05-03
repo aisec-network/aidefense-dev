@@ -1,0 +1,56 @@
+---
+import { siteConfig } from "@config/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-default mt-16">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-10 grid gap-8 md:grid-cols-4 text-sm">
+    <div>
+      <div class="font-display font-bold text-base">{siteConfig.title}</div>
+      <p class="text-muted mt-1">{siteConfig.tagline}</p>
+      <p class="text-muted mt-3 text-xs">
+        © {year} {siteConfig.title}. All content provided as-is for informational purposes.
+      </p>
+    </div>
+
+    <div>
+      <div class="font-medium mb-2">Sister sites</div>
+      <ul class="space-y-1">
+        {siteConfig.sister.map((s) => (
+          <li>
+            <a href={s.url} class="text-muted hover:text-accent-600 transition" rel="noopener">
+              {s.title} <span class="text-xs">— {s.tagline}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <div class="font-medium mb-2">Tools</div>
+      <ul class="space-y-1 text-muted">
+        <li>
+          <a
+            href="https://aisec.blog/tools/prompt-injection-scanner/"
+            class="hover:text-accent-600"
+            rel="noopener"
+          >
+            Prompt injection scanner
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="font-medium mb-2">Resources</div>
+      <ul class="space-y-1 text-muted">
+        <li><a href="/rss.xml" class="hover:text-accent-600">RSS feed</a></li>
+        <li><a href="/sitemap-index.xml" class="hover:text-accent-600">Sitemap</a></li>
+        <li><a href="/about" class="hover:text-accent-600">About</a></li>
+        <li><a href="/disclosure" class="hover:text-accent-600">Affiliate disclosure</a></li>
+        <li><a href="/privacy" class="hover:text-accent-600">Privacy</a></li>
+        <li><a href={`mailto:${siteConfig.email.contact}`} class="hover:text-accent-600">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

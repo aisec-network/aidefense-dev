@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: 255 255 255;
+    --fg: 17 24 39;
+    --muted: 243 244 246;
+    --muted-fg: 75 85 99;
+    --border: 229 231 235;
+    --accent-50: 239 246 255;
+    --accent-100: 219 234 254;
+    --accent-200: 191 219 254;
+    --accent-300: 147 197 253;
+    --accent-400: 96 165 250;
+    --accent-500: 59 130 246;
+    --accent-600: 37 99 235;
+    --accent-700: 29 78 216;
+    --accent-800: 30 64 175;
+    --accent-900: 30 58 138;
+    --accent-950: 23 37 84;
+  }
+
+  html.dark {
+    --bg: 9 9 11;
+    --fg: 244 244 245;
+    --muted: 24 24 27;
+    --muted-fg: 161 161 170;
+    --border: 39 39 42;
+  }
+
+  html { color-scheme: light dark; }
+  html.dark { color-scheme: dark; }
+
+  body {
+    background-color: rgb(var(--bg));
+    color: rgb(var(--fg));
+    font-feature-settings: "ss01", "cv02", "cv11";
+  }
+
+  ::selection {
+    background-color: rgb(var(--accent-500) / 0.25);
+  }
+}
+
+@layer utilities {
+  .text-muted { color: rgb(var(--muted-fg)); }
+  .bg-muted { background-color: rgb(var(--muted)); }
+  .border-default { border-color: rgb(var(--border)); }
+}
