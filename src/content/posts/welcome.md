@@ -4,6 +4,8 @@ description: "AI Defense covers defensive AI engineering — guardrails, content
 pubDate: 2026-05-03
 tags: ["meta"]
 category: "site"
+heroImage: https://aisec-imagegen.th3gptoperator.workers.dev/featured/aidefense.dev/welcome.png
+heroAlt: "What this site is for"
 ---
 
 AI Defense exists for the engineers shipping LLM features who got handed a "make it safe" requirement with no playbook.
