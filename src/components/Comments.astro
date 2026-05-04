@@ -1,0 +1,34 @@
+---
+import { siteConfig } from "@config/site";
+
+// Cluster-aware Giscus theme:
+//   offensive / news → transparent_dark (warm/cool dark backgrounds)
+//   all others       → preferred_color_scheme (auto light/dark)
+const darkClusters = new Set(["offensive", "news"]);
+const giscusTheme = darkClusters.has(siteConfig.brand.cluster)
+  ? "transparent_dark"
+  : "preferred_color_scheme";
+---
+
+<section class="mt-16 pt-10 border-t border-default not-prose" aria-label="Comments">
+  <h2 class="text-xs uppercase tracking-wider text-muted font-medium mb-5 font-mono">Comments</h2>
+  <div class="giscus"></div>
+</section>
+
+<script
+  is:inline
+  src="https://giscus.app/client.js"
+  data-repo="aisec-network/comments"
+  data-repo-id="R_kgDOSUHihA"
+  data-category="General"
+  data-category-id="DIC_kwDOSUHihM4C8Ur-"
+  data-mapping="url"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme={giscusTheme}
+  data-lang="en"
+  crossorigin="anonymous"
+  async
+></script>

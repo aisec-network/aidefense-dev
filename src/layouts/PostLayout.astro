@@ -1,8 +1,11 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "./BaseLayout.astro";
 import AffiliateDisclosure from "@components/AffiliateDisclosure.astro";
+import Comments from "@components/Comments.astro";
 import NewsletterSignup from "@components/NewsletterSignup.astro";
 import { siteConfig } from "@config/site";
+import { clusters } from "@config/clusters";
 
 interface Props {
   frontmatter: {
@@ -21,11 +24,31 @@ interface Props {
     schema?: { type: string };
   };
   url: string;
+  /** Slug of the current post — passed by [...slug].astro for related-post lookup. */
+  slug?: string;
 }
 
-const { frontmatter, url } = Astro.props;
+const { frontmatter, url, slug } = Astro.props;
 const author = frontmatter.author || siteConfig.byline;
 const schemaType = frontmatter.schema?.type || "Article";
+const cluster = clusters[siteConfig.brand.cluster];
+
+// Reading-time: rough WPM-based estimate from raw children text length.
+// We don't have access to the rendered string here, so we approximate from
+// tag count via a quick heuristic. Authors can override via frontmatter later.
+const readingMinutes = Math.max(2, Math.round((frontmatter.description.length + 1500) / 220));
+
+// Related posts — same site, same category if present, else most recent siblings.
+const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+const related = allPosts
+  .filter((p) => p.slug !== slug)
+  .sort((a, b) => {
+    const aBoost = frontmatter.category && a.data.category === frontmatter.category ? 1 : 0;
+    const bBoost = frontmatter.category && b.data.category === frontmatter.category ? 1 : 0;
+    if (aBoost !== bBoost) return bBoost - aBoost;
+    return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+  })
+  .slice(0, 3);
 
 const articleSchema = {
   "@context": "https://schema.org",
@@ -44,6 +67,14 @@ const articleSchema = {
   ...(frontmatter.heroImage && { image: new URL(frontmatter.heroImage, siteConfig.url).toString() }),
   ...(frontmatter.tags?.length && { keywords: frontmatter.tags.join(", ") }),
 };
+
+const dateStr = frontmatter.pubDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+const updatedStr = frontmatter.updatedDate?.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+const dropCapClass = cluster.postDropCaps ? "has-dropcap" : "";
+const heroAspectClass =
+  cluster.heroAspect === "21:9" ? "aspect-[21/9]" :
+  cluster.heroAspect === "4:3"  ? "aspect-[4/3]"  :
+  "aspect-[16/9]";
 ---
 
 <BaseLayout
@@ -56,58 +87,60 @@ const articleSchema = {
   modifiedTime={frontmatter.updatedDate}
   author={author}
   tags={frontmatter.tags}
+  fullBleed
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 
-  <article class="mx-auto">
-    <header class="mb-8 not-prose">
+  {frontmatter.heroImage ? (
+    <div class="relative w-full">
+      <div class={`w-full ${heroAspectClass} bg-muted overflow-hidden`}>
+        <img
+          src={frontmatter.heroImage}
+          alt={frontmatter.heroAlt || frontmatter.title}
+          class="w-full h-full object-cover"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[rgb(var(--bg))] via-[rgb(var(--bg)/0.0)] to-transparent pointer-events-none"></div>
+    </div>
+  ) : null}
+
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
+    <header class="mb-10">
       {frontmatter.category && (
-        <a href={`/category/${frontmatter.category}`} class="text-xs uppercase tracking-wider text-accent-600 font-medium">
+        <a href={`/category/${frontmatter.category}`} class="inline-block text-xs uppercase tracking-wider text-accent-700 font-medium font-mono">
           {frontmatter.category}
         </a>
       )}
-      <h1 class="font-display font-bold text-3xl sm:text-4xl mt-2 leading-tight">
+      <h1 class="font-display font-bold text-3xl sm:text-5xl mt-3 leading-[1.1] tracking-tight text-balance">
         {frontmatter.title}
       </h1>
-      <p class="text-muted mt-3 text-lg">{frontmatter.description}</p>
-      <div class="text-sm text-muted mt-4 flex flex-wrap gap-3">
-        <span>By {author}</span>
+      <p class="text-muted mt-4 text-lg sm:text-xl leading-snug max-w-2xl">{frontmatter.description}</p>
+      <div class="text-sm text-muted mt-6 flex flex-wrap gap-x-4 gap-y-1 font-mono">
+        <span>By <span class="text-[rgb(var(--fg))]">{author}</span></span>
         <span>·</span>
-        <time datetime={frontmatter.pubDate.toISOString()}>
-          {frontmatter.pubDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
-        </time>
-        {frontmatter.updatedDate && (
-          <>
-            <span>·</span>
-            <span>Updated {frontmatter.updatedDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
-          </>
-        )}
+        <time datetime={frontmatter.pubDate.toISOString()}>{dateStr}</time>
+        {updatedStr && (<><span>·</span><span>Updated {updatedStr}</span></>)}
+        <span>·</span>
+        <span>{readingMinutes} min read</span>
       </div>
     </header>
 
-    {frontmatter.heroImage && (
-      <img
-        src={frontmatter.heroImage}
-        alt={frontmatter.heroAlt || frontmatter.title}
-        class="rounded-lg mb-8 w-full"
-        loading="eager"
-        decoding="async"
-      />
-    )}
-
     {frontmatter.affiliateDisclosure && <AffiliateDisclosure />}
 
-    <div class="prose dark:prose-invert max-w-none">
+    <div class={`prose dark:prose-invert max-w-none ${dropCapClass}`}>
       <slot />
     </div>
 
     {frontmatter.sources && frontmatter.sources.length > 0 && (
-      <section class="mt-10 pt-6 border-t border-default not-prose">
-        <h2 class="font-display font-bold text-base mb-3">Sources</h2>
-        <ol class="text-sm text-muted space-y-1 list-decimal pl-5">
+      <section class="mt-12 pt-6 border-t border-default not-prose">
+        <h2 class="font-display font-bold text-base uppercase tracking-wider mb-3 text-muted">Sources</h2>
+        <ol class="text-sm space-y-1.5 list-decimal pl-5">
           {frontmatter.sources.map((s) => (
             <li>
-              <a href={s.url} rel="noopener nofollow" class="hover:text-accent-600">{s.title}</a>
+              <a href={s.url} rel="noopener nofollow" target="_blank" class="text-muted hover:text-accent-600">{s.title}</a>
             </li>
           ))}
         </ol>
@@ -117,13 +150,64 @@ const articleSchema = {
     {frontmatter.tags && frontmatter.tags.length > 0 && (
       <div class="mt-8 flex flex-wrap gap-2 not-prose">
         {frontmatter.tags.map((t) => (
-          <a href={`/tag/${t}`} class="text-xs px-2 py-1 bg-muted text-muted rounded hover:text-accent-600 transition">
+          <a href={`/tag/${t}`} class="text-xs px-2 py-1 bg-muted text-muted rounded hover:text-accent-600 transition font-mono">
             #{t}
           </a>
         ))}
       </div>
     )}
 
-    <NewsletterSignup />
+    <div data-newsletter-trigger>
+      <NewsletterSignup />
+    </div>
+
+    {related.length > 0 && (
+      <section class="mt-16 pt-10 border-t border-default not-prose">
+        <h2 class="text-xs uppercase tracking-wider text-muted font-medium mb-5">Related</h2>
+        <div class="grid sm:grid-cols-3 gap-6">
+          {related.map((p) => (
+            <a href={`/posts/${p.slug}`} class="group block">
+              {p.data.heroImage && (
+                <div class="aspect-[16/9] overflow-hidden rounded-md bg-muted mb-3 border border-default">
+                  <img src={p.data.heroImage} alt={p.data.heroAlt || p.data.title} loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500" />
+                </div>
+              )}
+              {p.data.category && (
+                <div class="text-[0.65rem] uppercase tracking-wider text-accent-700 font-mono">{p.data.category}</div>
+              )}
+              <h3 class="font-display font-semibold mt-1 leading-snug group-hover:text-accent-600 transition line-clamp-3">{p.data.title}</h3>
+              <p class="text-sm text-muted mt-1 line-clamp-2">{p.data.description}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <Comments />
   </article>
+
+  {/* Mid-scroll newsletter prompt: appears once at ~50% scroll */}
+  <script is:inline>
+    (() => {
+      const trigger = document.querySelector("[data-newsletter-trigger]");
+      if (!trigger) return;
+      // Only prompt if newsletter is enabled (the form will be present).
+      const form = trigger.querySelector("[data-newsletter]");
+      if (!form) return;
+      let shown = false;
+      const onScroll = () => {
+        if (shown) return;
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        if (h <= 0) return;
+        if (window.scrollY / h >= 0.5) {
+          shown = true;
+          window.removeEventListener("scroll", onScroll);
+          // Scroll-flash the existing signup form so user notices on next scroll.
+          form.classList.add("ring-2", "ring-accent-500", "transition", "duration-700");
+          setTimeout(() => form.classList.remove("ring-2", "ring-accent-500"), 1500);
+        }
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+    })();
+  </script>
 </BaseLayout>
