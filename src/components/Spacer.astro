@@ -1,0 +1,17 @@
+---
+interface Props {
+  /** Tailwind spacing unit. Defaults to 8 (=2rem). */
+  size?: number;
+  /** When true, draw a centered ornamental separator. */
+  rule?: boolean;
+}
+const { size = 8, rule = false } = Astro.props;
+---
+
+{rule ? (
+  <div class={`my-${size} flex items-center justify-center`}>
+    <span class="font-mono text-sm tracking-[0.5em] text-muted">⁂</span>
+  </div>
+) : (
+  <div class={`my-${size}`} aria-hidden="true"></div>
+)}

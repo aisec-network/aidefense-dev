@@ -1,0 +1,27 @@
+---
+interface Props {
+  variant?: "info" | "warn" | "danger" | "note" | "success";
+  title?: string;
+}
+
+const { variant = "info", title } = Astro.props;
+
+const variants: Record<NonNullable<Props["variant"]>, { ring: string; bg: string; ink: string; icon: string }> = {
+  info:    { ring: "ring-sky-500/40",    bg: "bg-sky-500/8",    ink: "text-sky-700 dark:text-sky-300",    icon: "i" },
+  note:    { ring: "ring-zinc-500/30",   bg: "bg-zinc-500/8",   ink: "text-zinc-700 dark:text-zinc-300",  icon: "·" },
+  warn:    { ring: "ring-amber-500/40",  bg: "bg-amber-500/10", ink: "text-amber-800 dark:text-amber-300", icon: "!" },
+  danger:  { ring: "ring-red-500/40",    bg: "bg-red-500/10",   ink: "text-red-700 dark:text-red-300",    icon: "✕" },
+  success: { ring: "ring-emerald-500/40",bg: "bg-emerald-500/10",ink:"text-emerald-700 dark:text-emerald-300", icon: "✓" },
+};
+const v = variants[variant];
+---
+
+<aside class={`not-prose my-6 rounded-lg ring-1 ${v.ring} ${v.bg} px-4 py-3 flex gap-3`}>
+  <span class={`shrink-0 mt-0.5 size-6 grid place-items-center rounded-full ring-1 ${v.ring} font-mono text-sm ${v.ink}`}>
+    {v.icon}
+  </span>
+  <div class="flex-1 text-[0.95rem] leading-relaxed">
+    {title && <div class={`font-semibold mb-1 ${v.ink}`}>{title}</div>}
+    <div class="text-[rgb(var(--fg))]"><slot /></div>
+  </div>
+</aside>

@@ -6,32 +6,36 @@ const site = siteConfig.domain;
 ---
 
 {enabled && (
-  <section class="my-10 p-6 border border-default rounded-lg bg-muted" data-newsletter>
-    <h3 class="font-display font-bold text-lg">Subscribe</h3>
-    <p class="text-muted mt-1 text-sm">{siteConfig.tagline} — delivered when there's something worth your inbox.</p>
-    <form
-      method="POST"
-      action={endpoint}
-      class="mt-4 flex flex-col sm:flex-row gap-2"
-      data-newsletter-form
-    >
-      <input type="hidden" name="site" value={site} />
-      <input
-        type="email"
-        name="email"
-        required
-        autocomplete="email"
-        placeholder="you@domain.com"
-        class="flex-1 px-3 py-2 rounded-md border border-default bg-[rgb(var(--bg))] focus:outline-none focus:ring-2 focus:ring-accent-500"
-      />
-      <button
-        type="submit"
-        class="px-4 py-2 rounded-md bg-accent-600 text-white font-medium hover:bg-accent-700 transition"
+  <section class="my-12 p-6 sm:p-8 rounded-xl border border-default bg-surface relative overflow-hidden" data-newsletter>
+    <div aria-hidden="true" class="absolute -top-12 -right-12 size-48 rounded-full bg-accent-100/40 dark:bg-accent-900/20 blur-3xl"></div>
+    <div class="relative">
+      <div class="text-xs uppercase tracking-wider text-accent-700 font-semibold mb-1">Subscribe</div>
+      <h3 class="font-display font-bold text-xl sm:text-2xl tracking-tight">{siteConfig.title} — in your inbox</h3>
+      <p class="text-muted mt-2 text-sm sm:text-base max-w-prose">{siteConfig.tagline} — delivered when there's something worth your inbox.</p>
+      <form
+        method="POST"
+        action={endpoint}
+        class="mt-5 flex flex-col sm:flex-row gap-2"
+        data-newsletter-form
       >
-        Subscribe
-      </button>
-    </form>
-    <p class="text-xs text-muted mt-2" data-newsletter-status>No spam. Unsubscribe anytime.</p>
+        <input type="hidden" name="site" value={site} />
+        <input
+          type="email"
+          name="email"
+          required
+          autocomplete="email"
+          placeholder="you@domain.com"
+          class="flex-1 px-3.5 py-2.5 rounded-md border border-default bg-[rgb(var(--bg))] focus:outline-none focus:ring-2 focus:ring-accent-500"
+        />
+        <button
+          type="submit"
+          class="px-5 py-2.5 rounded-md bg-accent-600 text-white font-medium hover:bg-accent-700 transition"
+        >
+          Subscribe
+        </button>
+      </form>
+      <p class="text-xs text-muted mt-3" data-newsletter-status>No spam. Unsubscribe anytime.</p>
+    </div>
   </section>
 )}
 

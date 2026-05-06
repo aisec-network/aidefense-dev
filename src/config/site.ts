@@ -1,3 +1,4 @@
+import type { ClusterId } from "./clusters";
 export interface SisterSite {
   domain: string;
   url: string;
@@ -15,7 +16,7 @@ export interface SiteConfig {
   language: string;
   locale: string;
   themeColor: string;
-  brand: { accentHue: number };
+  brand: { accentHue: number; cluster: ClusterId };
   social: { twitter?: string; rss: string };
   email: { contact: string; abuse: string; editor: string };
   newsletter: {
@@ -68,7 +69,7 @@ export const siteConfig: SiteConfig = {
   language: "en",
   locale: "en_US",
   themeColor: "#0a0a0a",
-  brand: { accentHue: 220 },
+  brand: { accentHue: 220, cluster: "defensive" },
   social: { rss: "/rss.xml" },
   email: {
     contact: "hello@aidefense.dev",

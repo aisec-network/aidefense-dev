@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Search">
+  <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
+  <div id="search"></div>
+  <script type="module">
+    import { PagefindUI } from '/pagefind/pagefind-ui.js';
+    new PagefindUI({ element: '#search', showSubResults: true });
+  </script>
+</BaseLayout>

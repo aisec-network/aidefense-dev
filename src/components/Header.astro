@@ -1,28 +1,63 @@
 ---
 import { siteConfig } from "@config/site";
+import { domainCluster, clusters } from "@config/clusters";
+
 const nav = [
   { href: "/", label: "Home" },
   { href: "/posts", label: "Posts" },
   { href: "/about", label: "About" },
 ];
+
+// Up to 5 sister sites in the same cluster — for the dropdown hint.
+const myCluster = siteConfig.brand.cluster;
+const sisterInCluster = siteConfig.sister
+  .filter((s) => domainCluster[s.domain] === myCluster)
+  .slice(0, 5);
+const clusterLabel = clusters[myCluster].label;
 ---
 
-<header class="border-b border-default sticky top-0 z-40 backdrop-blur bg-[rgb(var(--bg)/0.8)]">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
-    <a href="/" class="font-display font-bold tracking-tight text-lg hover:text-accent-600 transition">
+<header class="border-b border-default sticky top-0 z-40 backdrop-blur bg-[rgb(var(--bg)/0.85)]">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+    <a href="/" class="font-display font-bold tracking-tight text-lg hover:text-accent-600 transition flex items-center gap-2">
+      <span aria-hidden="true" class="inline-block size-2.5 rounded-sm bg-accent-600"></span>
       {siteConfig.title}
     </a>
-    <nav class="flex items-center gap-4 text-sm">
+    <nav class="flex items-center gap-1 sm:gap-3 text-sm">
       {nav.map((item) => (
-        <a href={item.href} class="text-muted hover:text-[rgb(var(--fg))] transition">
+        <a href={item.href} class="px-2 py-1 rounded text-muted hover:text-[rgb(var(--fg))] hover:bg-muted transition">
           {item.label}
         </a>
       ))}
+
+      {sisterInCluster.length > 0 && (
+        <details class="relative hidden sm:block">
+          <summary class="list-none cursor-pointer select-none px-2 py-1 rounded text-muted hover:text-[rgb(var(--fg))] hover:bg-muted transition flex items-center gap-1">
+            More
+            <span class="text-xs text-muted">▾</span>
+          </summary>
+          <div class="absolute right-0 top-full mt-1 min-w-[16rem] rounded-lg border border-default bg-surface shadow-lg py-2 z-50">
+            <div class="px-3 pt-1 pb-2 text-[0.65rem] uppercase tracking-wider text-muted">
+              {clusterLabel} network
+            </div>
+            <ul>
+              {sisterInCluster.map((s) => (
+                <li>
+                  <a href={s.url} rel="noopener" class="block px-3 py-1.5 text-sm hover:bg-muted hover:text-accent-600 transition">
+                    <span class="font-medium">{s.title}</span>
+                    <span class="block text-xs text-muted line-clamp-1">{s.tagline}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </details>
+      )}
+
       <button
         id="theme-toggle"
         type="button"
         aria-label="Toggle theme"
-        class="text-muted hover:text-[rgb(var(--fg))] text-base"
+        class="ml-1 px-2 py-1 rounded text-muted hover:text-[rgb(var(--fg))] hover:bg-muted text-base"
       >
         <span class="block dark:hidden">☾</span>
         <span class="hidden dark:block">☀</span>

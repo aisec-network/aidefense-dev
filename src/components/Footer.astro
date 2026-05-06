@@ -1,56 +1,80 @@
 ---
 import { siteConfig } from "@config/site";
+import { domainCluster, clusters, type ClusterId } from "@config/clusters";
 const year = new Date().getFullYear();
+
+// Group sister sites by cluster for the network section.
+const grouped: Record<ClusterId, typeof siteConfig.sister> = {
+  offensive: [],
+  engineering: [],
+  news: [],
+  policy: [],
+  defensive: [],
+};
+for (const s of siteConfig.sister) {
+  const c = domainCluster[s.domain];
+  if (c) grouped[c].push(s);
+}
+
+// Show this site's own cluster first, then the rest.
+const myCluster = siteConfig.brand.cluster;
+const order: ClusterId[] = [
+  myCluster,
+  ...(["offensive", "engineering", "news", "policy", "defensive"] as ClusterId[]).filter(
+    (c) => c !== myCluster
+  ),
+];
 ---
 
-<footer class="border-t border-default mt-16">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-10 grid gap-8 md:grid-cols-4 text-sm">
-    <div>
-      <div class="font-display font-bold text-base">{siteConfig.title}</div>
-      <p class="text-muted mt-1">{siteConfig.tagline}</p>
-      <p class="text-muted mt-3 text-xs">
-        © {year} {siteConfig.title}. All content provided as-is for informational purposes.
-      </p>
-    </div>
+<footer class="border-t border-default mt-20 bg-muted/40">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <div class="grid gap-10 md:grid-cols-12">
+      <div class="md:col-span-4">
+        <div class="flex items-center gap-2">
+          <span aria-hidden="true" class="inline-block size-3 rounded-sm bg-accent-600"></span>
+          <span class="font-display font-bold text-lg tracking-tight">{siteConfig.title}</span>
+        </div>
+        <p class="text-muted mt-2 text-sm leading-relaxed">{siteConfig.tagline}</p>
+        <p class="text-muted mt-6 text-xs">
+          © {year} {siteConfig.title}. Information provided as-is for research and journalism.
+        </p>
+      </div>
 
-    <div>
-      <div class="font-medium mb-2">Sister sites</div>
-      <ul class="space-y-1">
-        {siteConfig.sister.map((s) => (
-          <li>
-            <a href={s.url} class="text-muted hover:text-accent-600 transition" rel="noopener">
-              {s.title} <span class="text-xs">— {s.tagline}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
+      <div class="md:col-span-6">
+        <div class="text-xs uppercase tracking-wider text-muted mb-4">Network</div>
+        <div class="grid sm:grid-cols-2 gap-x-6 gap-y-5">
+          {order.map((c) =>
+            grouped[c].length > 0 && (
+              <div>
+                <div class="text-[0.7rem] uppercase tracking-wider text-accent-700 mb-2 font-medium">
+                  {clusters[c].label}
+                </div>
+                <ul class="space-y-1.5 text-sm">
+                  {grouped[c].map((s) => (
+                    <li>
+                      <a href={s.url} class="text-muted hover:text-accent-600 transition" rel="noopener">
+                        {s.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          )}
+        </div>
+      </div>
 
-    <div>
-      <div class="font-medium mb-2">Tools</div>
-      <ul class="space-y-1 text-muted">
-        <li>
-          <a
-            href="https://aisec.blog/tools/prompt-injection-scanner/"
-            class="hover:text-accent-600"
-            rel="noopener"
-          >
-            Prompt injection scanner
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <div>
-      <div class="font-medium mb-2">Resources</div>
-      <ul class="space-y-1 text-muted">
-        <li><a href="/rss.xml" class="hover:text-accent-600">RSS feed</a></li>
-        <li><a href="/sitemap-index.xml" class="hover:text-accent-600">Sitemap</a></li>
-        <li><a href="/about" class="hover:text-accent-600">About</a></li>
-        <li><a href="/disclosure" class="hover:text-accent-600">Affiliate disclosure</a></li>
-        <li><a href="/privacy" class="hover:text-accent-600">Privacy</a></li>
-        <li><a href={`mailto:${siteConfig.email.contact}`} class="hover:text-accent-600">Contact</a></li>
-      </ul>
+      <div class="md:col-span-2">
+        <div class="text-xs uppercase tracking-wider text-muted mb-4">Resources</div>
+        <ul class="space-y-1.5 text-sm text-muted">
+          <li><a href="/rss.xml" class="hover:text-accent-600">RSS</a></li>
+          <li><a href="/sitemap-index.xml" class="hover:text-accent-600">Sitemap</a></li>
+          <li><a href="/about" class="hover:text-accent-600">About</a></li>
+          <li><a href="/disclosure" class="hover:text-accent-600">Disclosure</a></li>
+          <li><a href="/privacy" class="hover:text-accent-600">Privacy</a></li>
+          <li><a href={`mailto:${siteConfig.email.contact}`} class="hover:text-accent-600">Contact</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </footer>

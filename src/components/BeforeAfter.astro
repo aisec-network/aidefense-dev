@@ -1,0 +1,46 @@
+---
+interface Props {
+  before: string;
+  after: string;
+  beforeAlt?: string;
+  afterAlt?: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+}
+const {
+  before,
+  after,
+  beforeAlt = "Before",
+  afterAlt = "After",
+  beforeLabel = "Before",
+  afterLabel = "After",
+} = Astro.props;
+const id = "ba-" + Math.random().toString(36).slice(2, 9);
+---
+
+<figure class={`not-prose my-8 select-none rounded-lg overflow-hidden border border-default relative`} data-ba={id}>
+  <img src={after} alt={afterAlt} class="block w-full h-auto" loading="lazy" decoding="async" />
+  <div class="absolute inset-0 overflow-hidden" data-ba-clip style="width:50%">
+    <img src={before} alt={beforeAlt} class="block w-full h-auto" loading="lazy" decoding="async" />
+  </div>
+  <input
+    type="range"
+    min="0"
+    max="100"
+    value="50"
+    aria-label="Before/after slider"
+    data-ba-input
+    class="absolute inset-x-0 bottom-3 mx-auto block w-2/3 accent-accent-600 cursor-ew-resize"
+  />
+  <span class="absolute top-2 left-2 px-2 py-0.5 text-xs font-mono uppercase tracking-wider rounded bg-zinc-900/70 text-white">{beforeLabel}</span>
+  <span class="absolute top-2 right-2 px-2 py-0.5 text-xs font-mono uppercase tracking-wider rounded bg-zinc-900/70 text-white">{afterLabel}</span>
+</figure>
+
+<script is:inline define:vars={{ id }}>
+  const root = document.querySelector(`[data-ba="${id}"]`);
+  if (root) {
+    const clip = root.querySelector("[data-ba-clip]");
+    const input = root.querySelector("[data-ba-input]");
+    input?.addEventListener("input", () => { clip.style.width = input.value + "%"; });
+  }
+</script>

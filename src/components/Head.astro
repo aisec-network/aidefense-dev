@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from "@config/site";
+import { clusters, googleFontsHref } from "@config/clusters";
 
 interface Props {
   title?: string;
@@ -32,6 +33,10 @@ const url = canonical || new URL(Astro.url.pathname, siteConfig.url).toString();
 const ogImage = image
   ? new URL(image, siteConfig.url).toString()
   : new URL("/og-default.png", siteConfig.url).toString();
+
+const cluster = clusters[siteConfig.brand.cluster];
+const fontsHref = googleFontsHref(cluster);
+const plausibleDomain = siteConfig.analytics.plausibleDomain || new URL(siteConfig.url).hostname;
 ---
 
 <meta charset="UTF-8" />
@@ -66,8 +71,21 @@ const ogImage = image
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-<link rel="preconnect" href="https://rsms.me/" />
-<link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+<!-- Cluster-specific Google Fonts: preconnect, preload primary, async load -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="preload"
+  as="style"
+  href={fontsHref}
+/>
+<link
+  rel="stylesheet"
+  href={fontsHref}
+  media="print"
+  onload="this.media='all'"
+/>
+<noscript><link rel="stylesheet" href={fontsHref} /></noscript>
 
 <script is:inline>
   const t = localStorage.getItem("theme");
@@ -83,3 +101,9 @@ const ogImage = image
     data-cf-beacon={`{"token": "${siteConfig.analytics.cfBeaconToken}"}`}
   />
 )}
+
+<script
+  defer
+  data-domain={plausibleDomain}
+  src="https://plausible.io/js/script.js"
+></script>

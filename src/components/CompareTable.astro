@@ -1,0 +1,66 @@
+---
+/**
+ * Tool comparison table. Used heavily on the commercial-intent
+ * (defensive/tools cluster) sites for "best X" roundups.
+ *
+ * Pass `rows` keyed by feature with one column per product. The first
+ * column is always the row label.
+ *
+ * <CompareTable
+ *   products={["Product A", "Product B", "Product C"]}
+ *   rows={[
+ *     { label: "Open source", values: ["✓","✕","✓"] },
+ *     { label: "Self-hosted", values: ["✓","✕","✓"] },
+ *     { label: "Free tier",   values: ["10k req","none","unlimited"] },
+ *   ]}
+ *   highlight={0}
+ * />
+ */
+interface Row {
+  label: string;
+  values: (string | number)[];
+}
+
+interface Props {
+  products: string[];
+  rows: Row[];
+  /** Index of the column to highlight as recommended. */
+  highlight?: number;
+  caption?: string;
+}
+
+const { products, rows, highlight, caption } = Astro.props;
+---
+
+<div class="not-prose my-8 overflow-x-auto rounded-lg border border-default">
+  <table class="w-full text-sm">
+    <thead class="bg-muted">
+      <tr>
+        <th class="text-left px-4 py-3 font-medium text-muted">Feature</th>
+        {products.map((p, i) => (
+          <th class={`text-left px-4 py-3 font-semibold ${i === highlight ? "text-accent-600 bg-accent-50/50 dark:bg-accent-900/30" : ""}`}>
+            {p}
+            {i === highlight && (
+              <span class="ml-2 text-[0.65rem] uppercase tracking-wider align-middle font-mono text-accent-700">pick</span>
+            )}
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row, ri) => (
+        <tr class={ri % 2 === 1 ? "bg-muted/40" : ""}>
+          <td class="px-4 py-2.5 text-muted whitespace-nowrap">{row.label}</td>
+          {row.values.map((v, ci) => (
+            <td class={`px-4 py-2.5 ${ci === highlight ? "bg-accent-50/40 dark:bg-accent-900/20 font-medium" : ""}`}>
+              {v}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  {caption && (
+    <div class="px-4 py-2 text-xs text-muted bg-muted/40 border-t border-default">{caption}</div>
+  )}
+</div>

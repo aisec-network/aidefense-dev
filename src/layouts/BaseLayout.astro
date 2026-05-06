@@ -3,6 +3,8 @@ import "@/styles/globals.css";
 import Head from "@components/Head.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
+import { siteConfig } from "@config/site";
+import { hueToAccentRamp } from "@config/clusters";
 
 interface Props {
   title?: string;
@@ -15,21 +17,42 @@ interface Props {
   author?: string;
   tags?: string[];
   noindex?: boolean;
+  /** When true, BaseLayout renders only Head/Header/Footer + slot
+      with no <main> wrapper, so cluster homepages can take the
+      full viewport width. */
+  fullBleed?: boolean;
 }
 
 const props = Astro.props;
+const cluster = siteConfig.brand.cluster;
+const ramp = hueToAccentRamp(siteConfig.brand.accentHue);
+
+// Inline the per-site accent ramp + hue into a tiny style block so it lands
+// on <body> without an extra stylesheet round-trip.
+const accentVars = Object.entries(ramp)
+  .map(([stop, rgb]) => `--accent-${stop}:${rgb};`)
+  .join("");
+const inlineStyle = `--accent-hue:${siteConfig.brand.accentHue};${accentVars}`;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={siteConfig.language}>
   <head>
     <Head {...props} />
   </head>
-  <body class="min-h-screen flex flex-col">
+  <body
+    class="min-h-screen flex flex-col"
+    data-cluster={cluster}
+    style={inlineStyle}
+  >
     <Header />
-    <main class="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-8">
+    {props.fullBleed ? (
       <slot />
-    </main>
+    ) : (
+      <main class="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-8">
+        <slot />
+      </main>
+    )}
     <Footer />
   </body>
 </html>

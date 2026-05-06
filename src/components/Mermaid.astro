@@ -1,0 +1,70 @@
+---
+/**
+ * Inline Mermaid diagram. Renders client-side via the Mermaid CDN bundle.
+ *
+ * Usage in MDX:
+ *   <Mermaid>{`
+ *     graph LR
+ *       A[Prompt] --> B{Filter}
+ *       B -->|pass| C[LLM]
+ *       B -->|block| D[Reject]
+ *   `}</Mermaid>
+ *
+ * Mermaid is loaded once on first <Mermaid> on the page (the inline script
+ * checks window.__mermaidLoaded). Theme follows the active dark/light mode
+ * and re-renders on theme toggle via a small MutationObserver.
+ */
+interface Props {
+  /** Optional caption rendered below the diagram. */
+  caption?: string;
+}
+const { caption } = Astro.props;
+const id = "mer-" + Math.random().toString(36).slice(2, 9);
+---
+
+<figure class="not-prose my-6 rounded-lg border border-default bg-surface p-4 overflow-x-auto" data-mermaid-host>
+  <div class="mermaid" data-mer-id={id}><slot /></div>
+  {caption && <figcaption class="mt-2 text-xs text-muted text-center">{caption}</figcaption>}
+</figure>
+
+<script is:inline>
+  if (!window.__mermaidLoaded) {
+    window.__mermaidLoaded = true;
+    const s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js";
+    s.onload = () => {
+      const isDark = document.documentElement.classList.contains("dark");
+      window.mermaid.initialize({
+        startOnLoad: true,
+        theme: isDark ? "dark" : "neutral",
+        securityLevel: "strict",
+        fontFamily: "var(--font-display)",
+      });
+      window.mermaid.run();
+
+      // Re-render on theme toggle.
+      const obs = new MutationObserver(() => {
+        const dark = document.documentElement.classList.contains("dark");
+        window.mermaid.initialize({
+          startOnLoad: false,
+          theme: dark ? "dark" : "neutral",
+          securityLevel: "strict",
+          fontFamily: "var(--font-display)",
+        });
+        document.querySelectorAll("[data-mermaid-host] .mermaid").forEach((el) => {
+          // Reset processed flag and re-render.
+          el.removeAttribute("data-processed");
+          el.innerHTML = el.dataset.source || el.textContent || "";
+        });
+        window.mermaid.run();
+      });
+      obs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
+      // Cache original source so we can re-render after theme change.
+      document.querySelectorAll("[data-mermaid-host] .mermaid").forEach((el) => {
+        if (!el.dataset.source) el.dataset.source = el.textContent.trim();
+      });
+    };
+    document.head.appendChild(s);
+  }
+</script>

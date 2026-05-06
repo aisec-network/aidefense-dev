@@ -18,6 +18,6 @@ const { post } = Astro.props;
 const { Content } = await post.render();
 ---
 
-<PostLayout frontmatter={post.data} url={Astro.url.pathname}>
+<PostLayout frontmatter={post.data} url={Astro.url.pathname} slug={post.slug}>
   <Content />
 </PostLayout>

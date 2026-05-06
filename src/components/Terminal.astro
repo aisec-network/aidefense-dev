@@ -1,0 +1,19 @@
+---
+interface Props {
+  /** Optional title shown in the title bar (e.g. "bash"). */
+  title?: string;
+  /** Optional shell prompt prefix prepended to the first line ("$ ", "» ", etc.). */
+  prompt?: string;
+}
+const { title = "bash", prompt } = Astro.props;
+---
+
+<div class="not-prose my-6 rounded-lg overflow-hidden border border-default bg-zinc-950 text-zinc-100 shadow-sm">
+  <div class="flex items-center gap-2 px-3 py-2 border-b border-zinc-800/80 bg-zinc-900/60 text-xs text-zinc-400 font-mono">
+    <span class="size-2.5 rounded-full bg-red-500/70"></span>
+    <span class="size-2.5 rounded-full bg-amber-500/70"></span>
+    <span class="size-2.5 rounded-full bg-emerald-500/70"></span>
+    <span class="ml-2">{title}</span>
+  </div>
+  <pre class="m-0 px-4 py-3 text-[0.85rem] leading-relaxed font-mono overflow-x-auto"><code>{prompt && <span class="text-emerald-400 select-none">{prompt}</span>}<slot /></code></pre>
+</div>

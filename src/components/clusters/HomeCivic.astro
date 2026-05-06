@@ -1,0 +1,117 @@
+---
+/**
+ * Policy / Watchdog cluster homepage. Civic — featured ruling, three columns
+ * of recent rulings, enforcement actions, and comment periods. Authoritative,
+ * generous whitespace, weighty serif.
+ */
+import { siteConfig } from "@config/site";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  posts: CollectionEntry<"posts">[];
+}
+const { posts } = Astro.props;
+const featured = posts[0];
+const remaining = posts.slice(1);
+
+// Bucket by category — fall back to recency if categories aren't set.
+function bucket(name: string, count = 4): CollectionEntry<"posts">[] {
+  const matches = remaining.filter((p) => (p.data.category || "").toLowerCase().includes(name));
+  if (matches.length >= 2) return matches.slice(0, count);
+  return [];
+}
+const rulings = bucket("ruling");
+const enforcement = bucket("enforcement");
+const comment = bucket("comment");
+const fallback = remaining.slice(0, 9);
+---
+
+<section class="max-w-5xl mx-auto px-4 sm:px-6 pt-20 pb-12 text-center">
+  <div class="inline-block px-3 py-1 rounded-full text-[0.65rem] uppercase tracking-[0.2em] text-amber-800 bg-amber-100 dark:bg-amber-900/30 dark:text-amber-300 font-semibold mb-6">
+    Independent · Sourced · Public-interest
+  </div>
+  <h1 class="font-display font-bold text-4xl sm:text-6xl tracking-tight leading-[1.05] text-balance max-w-3xl mx-auto">
+    {siteConfig.tagline}
+  </h1>
+  <p class="text-muted mt-6 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
+    {siteConfig.description}
+  </p>
+</section>
+
+{featured && (
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+    <a href={`/posts/${featured.slug}`} class="block group">
+      {featured.data.heroImage && (
+        <div class="aspect-[16/9] bg-muted overflow-hidden mb-8 rounded-md border border-default">
+          <img src={featured.data.heroImage} alt={featured.data.heroAlt || featured.data.title} loading="eager" decoding="async" class="w-full h-full object-cover" />
+        </div>
+      )}
+      <div class="text-center max-w-3xl mx-auto">
+        {featured.data.category && (
+          <div class="text-[0.65rem] uppercase tracking-[0.2em] text-amber-800 dark:text-amber-300 font-semibold">{featured.data.category}</div>
+        )}
+        <h2 class="font-display font-bold text-2xl sm:text-4xl leading-tight tracking-tight mt-3 group-hover:text-accent-600 transition text-balance">
+          {featured.data.title}
+        </h2>
+        <p class="text-muted mt-4 leading-relaxed text-base sm:text-lg">{featured.data.description}</p>
+        <div class="font-mono text-xs text-muted mt-3">
+          {featured.data.pubDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+        </div>
+      </div>
+    </a>
+  </section>
+)}
+
+{(rulings.length || enforcement.length || comment.length) ? (
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 grid md:grid-cols-3 gap-12">
+    {[
+      { label: "Recent rulings", items: rulings },
+      { label: "Enforcement actions", items: enforcement },
+      { label: "Open comment periods", items: comment },
+    ].filter(c => c.items.length > 0).map((col) => (
+      <section>
+        <h2 class="font-display font-bold text-base uppercase tracking-wider mb-5 pb-2 border-b border-default">
+          {col.label}
+        </h2>
+        <ul class="space-y-5">
+          {col.items.map((p) => (
+            <li>
+              <a href={`/posts/${p.slug}`} class="group block">
+                <h3 class="font-display font-semibold leading-snug group-hover:text-accent-600 transition">{p.data.title}</h3>
+                <p class="text-sm text-muted mt-1 line-clamp-2">{p.data.description}</p>
+                <time class="font-mono text-xs text-muted mt-1 block">
+                  {p.data.pubDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                </time>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </section>
+) : (
+  fallback.length > 0 && (
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 py-16">
+      <h2 class="font-display font-bold text-base uppercase tracking-wider mb-6 text-center">Recent coverage</h2>
+      <ul class="grid md:grid-cols-3 gap-8">
+        {fallback.map((p) => (
+          <li>
+            <a href={`/posts/${p.slug}`} class="group block">
+              <h3 class="font-display font-semibold leading-snug group-hover:text-accent-600 transition">{p.data.title}</h3>
+              <p class="text-sm text-muted mt-2 line-clamp-3">{p.data.description}</p>
+              <time class="font-mono text-xs text-muted mt-2 block">
+                {p.data.pubDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+              </time>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+)}
+
+{posts.length === 0 && (
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 py-12 text-muted text-center">
+    <p>Coverage queue is being populated.</p>
+  </section>
+)}

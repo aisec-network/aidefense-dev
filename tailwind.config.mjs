@@ -6,13 +6,17 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["InterVariable", "Inter", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "ui-monospace", "monospace"],
-        display: ["InterVariable", "Inter", "system-ui", "sans-serif"],
+        // These pull from CSS vars set per-cluster on <body>. Tailwind's
+        // utility classes still produce expected output; the var resolves
+        // at paint time.
+        sans: ["var(--font-body)", "system-ui", "sans-serif"],
+        body: ["var(--font-body)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       colors: {
         accent: {
-          50: "rgb(var(--accent-50) / <alpha-value>)",
+          50:  "rgb(var(--accent-50)  / <alpha-value>)",
           100: "rgb(var(--accent-100) / <alpha-value>)",
           200: "rgb(var(--accent-200) / <alpha-value>)",
           300: "rgb(var(--accent-300) / <alpha-value>)",
@@ -25,10 +29,10 @@ export default {
           950: "rgb(var(--accent-950) / <alpha-value>)",
         },
       },
-      typography: ({ theme }) => ({
+      typography: () => ({
         DEFAULT: {
           css: {
-            maxWidth: "72ch",
+            maxWidth: "var(--body-max-ch, 72ch)",
             "code::before": { content: "" },
             "code::after": { content: "" },
             code: {
@@ -39,10 +43,13 @@ export default {
             },
             "pre code": { backgroundColor: "transparent", padding: 0 },
             a: {
-              color: "rgb(var(--accent-600))",
+              color: "rgb(var(--accent-700))",
               textDecorationThickness: "1px",
               textUnderlineOffset: "0.2em",
+              fontWeight: "500",
             },
+            "a:hover": { color: "rgb(var(--accent-600))" },
+            "h1, h2, h3, h4": { fontFamily: "var(--font-display)" },
           },
         },
       }),

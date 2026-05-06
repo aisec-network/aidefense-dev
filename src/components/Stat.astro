@@ -1,0 +1,21 @@
+---
+interface Props {
+  /** Big number (or string like "10×"). */
+  value: string | number;
+  /** Caption under the number. */
+  label: string;
+  /** Optional small bottom note. */
+  note?: string;
+  /** Layout: inline (default), block (full row), or grid item. */
+  variant?: "inline" | "block";
+}
+const { value, label, note, variant = "block" } = Astro.props;
+---
+
+<div class={`not-prose ${variant === "block" ? "my-6" : "inline-block mr-6"} text-center sm:text-left`}>
+  <div class="font-display font-bold text-4xl sm:text-5xl leading-none tracking-tight text-accent-600 tabular-nums">
+    {value}
+  </div>
+  <div class="mt-2 text-sm font-medium uppercase tracking-wider text-muted">{label}</div>
+  {note && <div class="mt-1 text-xs text-muted">{note}</div>}
+</div>

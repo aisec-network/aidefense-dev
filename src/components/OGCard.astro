@@ -1,0 +1,32 @@
+---
+interface Props {
+  url: string;
+  title: string;
+  description?: string;
+  source?: string;
+  image?: string;
+}
+const { url, title, description, source, image } = Astro.props;
+let host = source;
+if (!host) {
+  try { host = new URL(url).hostname.replace(/^www\./, ""); } catch { host = url; }
+}
+---
+
+<a
+  href={url}
+  rel="noopener nofollow"
+  target="_blank"
+  class="not-prose my-6 flex gap-4 rounded-lg border border-default bg-surface p-4 hover:border-accent-500 transition group"
+>
+  {image && (
+    <img src={image} alt="" loading="lazy" decoding="async" class="size-20 sm:size-24 rounded object-cover shrink-0 border border-default" />
+  )}
+  <div class="flex-1 min-w-0">
+    <div class="text-xs text-muted font-mono">{host}</div>
+    <div class="font-semibold mt-1 line-clamp-2 group-hover:text-accent-600 transition">{title}</div>
+    {description && (
+      <p class="mt-1 text-sm text-muted line-clamp-2">{description}</p>
+    )}
+  </div>
+</a>
