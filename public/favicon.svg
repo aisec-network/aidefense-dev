@@ -1,1 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#0a0a0a"/><path d="M16 24h32v4H16zm0 12h24v4H16zm0 -22 32 0v4l-32 0z" fill="#fff"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="12" fill="#eff6ff" />
+  <rect x="0" y="56" width="64" height="8" fill="#1d4ed8" />
+  <text x="32" y="44" font-family="Spectral, system-ui, sans-serif" font-size="36" font-weight="700"
+    fill="#1e3a5f" text-anchor="middle" letter-spacing="-1">A</text>
+</svg>
