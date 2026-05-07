@@ -1,17 +1,16 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 const persona = {
-  name: "Hannah Linden",
-  bioShort: "Privacy-tech policy researcher. Covers GDPR, the EU AI Act, and global AI governance. Writes for practitioners who need to understand the legal landscape, not just the technical one.",
-  bioLong: "Hannah Linden researches the intersection of AI systems and privacy law, with a focus on EU and US regulatory frameworks. She holds an LLM with a focus on technology law and has advised on GDPR compliance for AI companies. Her writing translates regulatory complexity for technical teams who need to know what compliance actually requires \u2014 not just what regulators say in press releases.",
-  voice: ["measured", "regulation-aware", "EU-perspective", "citation-heavy"],
-  sites: ["aiprivacy-report", "promptinjection-report", "aimoderationtools-com", "neuralwatch-org"],
+  name: "Daniel Park",
+  bioShort: "Detection engineer and MITRE ATLAS contributor. Writes about defending AI systems using structured frameworks \u2014 not vendor hype. Blue-team-first, skeptical of AI-solves-everything narratives.",
+  bioLong: "Daniel Park is a detection engineer who has spent the last six years building AI-aware defensive systems for financial services and critical infrastructure. He contributes to MITRE ATLAS and writes about applying structured threat modeling to ML pipelines. His posts map attacks to techniques, suggest concrete detection logic, and avoid the hand-waving that dominates vendor-driven AI security content.",
+  voice: ["analytical", "MITRE-citing", "blue-team practitioner", "systematic"],
+  sites: ["aimoderationtools-com", "aisecbench-com", "aisecreviews-com", "bestaisecuritytools-com", "bestllmscanners-com", "guardml-io"],
 };
-const avatarUrl = "https://aisec-imagegen.th3gptoperator.workers.dev/?prompt=Professional%20headshot%20of%20Hannah%20Linden%2C%20a%20blonde%20European%20woman%20in%20her%20early%2040s%2C%20professional%20background%2C%20thoughtful%20look%2C%20photorealistic%2C%20professional%20headshot%2C%20square&aspect=square";
+const avatarUrl = "https://aisec-imagegen.th3gptoperator.workers.dev/?prompt=Professional%20headshot%20of%20Daniel%20Park%2C%20a%20Korean-American%20man%20in%20his%20mid-30s%2C%20dark%20technical%20background%2C%20analytical%20expression%2C%20photorealistic%2C%20professional%20headshot%2C%20square&aspect=square";
 ---
 <BaseLayout title={`About ${persona.name}`} description={persona.bioShort}>
-  <script type="application/ld+json" set:html={JSON.stringify({"@context": "https://schema.org", "@type": "Person", "name": "Hannah Linden", "description": "Privacy-tech policy researcher. Covers GDPR, the EU AI Act, and global AI governance. Writes for practitioners who need to understand the legal landscape, not just the technical one.", "url": "https://aidefense.dev/about", "knowsAbout": ["measured", "regulation-aware", "EU-perspective", "citation-heavy"], "sameAs": ["https://aiprivacy.report/about", "https://promptinjection.report/about", "https://aimoderationtools.com/about", "https://neuralwatch.org/about"], "jobTitle": "Measured"})}></script>
-
+  <script type="application/ld+json" set:html={JSON.stringify({"@context": "https://schema.org", "@type": "Person", "name": "Daniel Park", "description": "Detection engineer and MITRE ATLAS contributor. Writes about defending AI systems using structured frameworks \u2014 not vendor hype. Blue-team-first, skeptical of AI-solves-everything narratives.", "url": "https://aidefense.dev/about", "knowsAbout": ["analytical", "MITRE-citing", "blue-team practitioner", "systematic"], "sameAs": ["https://aimoderationtools.com/about", "https://aisecbench.com/about", "https://aisecreviews.com/about", "https://bestaisecuritytools.com/about", "https://bestllmscanners.com/about", "https://guardml.io/about"], "jobTitle": "Analytical"})}></script>
   <article class="prose mx-auto max-w-2xl py-16 px-4">
     <h1>About {persona.name}</h1>
     <img src={avatarUrl} alt={persona.name} width="200" height="200" style="border-radius:50%;object-fit:cover;float:right;margin:0 0 1rem 1.5rem;" loading="eager" />

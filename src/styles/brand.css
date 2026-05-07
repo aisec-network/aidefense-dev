@@ -1,11 +1,7 @@
-/* Brand + visual variant for aidefense-dev
- * cluster: policy
- * variant: v4_grid_cards_elevated
- * Generated 2026-05-07. Higher specificity than globals.css cluster rules. */
-
+/* Brand for aidefense-dev: cluster=defensive, variant=v4_grid_cards_elevated */
 @import url("https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
 
-body[data-cluster='policy'] {
+body[data-cluster='defensive'] {
   --bg: 239 246 255;
   --fg: 30 58 95;
   --surface: 219 234 254;
@@ -22,33 +18,7 @@ body[data-cluster='policy'] {
   --brand-accent-rgb: 29 78 216;
   --brand-variant: "v4_grid_cards_elevated";
 }
-html.dark body[data-cluster='policy'] {
+html.dark body[data-cluster='defensive'] {
   --bg: 239 246 255; --fg: 30 58 95; --surface: 219 234 254;
   --accent-500: 29 78 216; --accent-600: 29 78 216;
-}
-
-
-body[data-cluster='policy'] {
-  --type-scale: 1.200;
-  --space-y: 0.75rem;
-}
-body[data-cluster='policy'] h1 { font-size: calc(1rem * var(--type-scale) * var(--type-scale) * var(--type-scale) * var(--type-scale)); line-height: 1.05; }
-body[data-cluster='policy'] h2 { font-size: calc(1rem * var(--type-scale) * var(--type-scale) * var(--type-scale)); line-height: 1.15; }
-body[data-cluster='policy'] h3 { font-size: calc(1rem * var(--type-scale) * var(--type-scale)); line-height: 1.2; }
-body[data-cluster='policy'] p { margin-block: var(--space-y); }
-
-
-/* Hero / header layout — variant: center */
-body[data-cluster='policy'] .hero, body[data-cluster='policy'] header.site-header { text-align: center; padding: 4rem 1rem; }
-
-/* Card style — variant: elevated */
-body[data-cluster='policy'] article { background: rgb(219 234 254); box-shadow: 0 4px 12px rgb(0 0 0 / 0.15); border-radius: 12px; padding: 1.5rem; }
-
-/* Accent application — variant: button-fill */
-body[data-cluster='policy'] .accent-btn, body[data-cluster='policy'] button[type=submit] { background: rgb(29 78 216); color: rgb(239 246 255); border-radius: 8px; padding: 0.75em 1.5em; }
-
-/* Border radius — variant uses 12px */
-body[data-cluster='policy'] article,
-body[data-cluster='policy'] .card {
-  border-radius: 12px;
 }

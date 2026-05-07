@@ -1,6 +1,6 @@
 ---
 title: "What this site is for"
-author: "Hannah Linden"
+author: "Daniel Park"
 description: "AI Defense covers defensive AI engineering — guardrails, content filters, and shipping AI features without shipping liability."
 pubDate: 2026-05-03
 tags: ["meta"]
