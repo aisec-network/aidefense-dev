@@ -1,0 +1,163 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteConfig } from "../config/site";
+
+const lastUpdated = "2026-05-07";
+const contactEmail = siteConfig.email?.contact || `editor@${siteConfig.domain}`;
+---
+<BaseLayout title="Terms of Use" description={`Terms of use for ${siteConfig.title}.`}>
+  <article class="legal">
+    <h1>Terms of Use</h1>
+    <p class="meta">Last updated: {lastUpdated}</p>
+
+    <p>
+      These Terms govern your use of <strong>{siteConfig.title}</strong> ({siteConfig.url}) and the
+      AI Sec Network publications. By accessing the site, you agree to these Terms. If you do not
+      agree, do not use the site.
+    </p>
+
+    <h2>Editorial content</h2>
+
+    <p>
+      Content is published for informational purposes. It does not constitute legal, financial,
+      medical, or security advice for your specific situation. Verify against authoritative sources
+      before acting on anything you read here. Where we cite primary sources, prefer those for
+      decision-making over our summaries.
+    </p>
+
+    <h2>Acceptable use</h2>
+
+    <p>You may:</p>
+    <ul>
+      <li>Read content for personal or professional use</li>
+      <li>Cite or quote with proper attribution (link to the original page; quote less than 500 words)</li>
+      <li>Share links on social media or in messaging applications</li>
+      <li>Use code samples published in posts under their stated license (MIT unless otherwise noted)</li>
+    </ul>
+
+    <p>You may not:</p>
+    <ul>
+      <li>Republish full posts on other domains, with or without attribution</li>
+      <li>Use content to train AI models without express written permission (see "AI training" below)</li>
+      <li>Scrape the site at a rate exceeding 1 request per second per IP</li>
+      <li>Attempt to circumvent rate limits or anti-abuse measures on associated services (newsletter signup, SaaS APIs)</li>
+      <li>Use the site or any associated service for unlawful purposes</li>
+    </ul>
+
+    <h2>AI training</h2>
+
+    <p>
+      We do NOT consent to use of this site's content for training, fine-tuning, or otherwise
+      developing machine learning models. This applies regardless of whether the content is fetched
+      via web crawler, RSS, or any other mechanism. We respect machine-readable opt-outs (robots.txt,
+      ai.txt, IETF AI Preferences when standardized) and expect AI developers to do the same.
+    </p>
+
+    <p>
+      For research uses (academic non-commercial, with citation), individual permissions may be
+      granted on request to <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+    </p>
+
+    <h2>Intellectual property</h2>
+
+    <p>
+      Original content on this site is © AI Sec Network unless otherwise noted. Code samples are
+      MIT-licensed unless explicitly stated otherwise. Image assets are either originally produced
+      or licensed for our use.
+    </p>
+
+    <p>
+      Trademarks, logos, and product names referenced in posts belong to their respective owners
+      and are used for identification and editorial commentary only.
+    </p>
+
+    <h2>Newsletter and SaaS services</h2>
+
+    <p>
+      If you subscribe to the newsletter or use any SaaS service operated by the AI Sec Network
+      (e.g., the prompt-injection scanner, AI Red Team Gym), additional terms apply:
+    </p>
+
+    <ul>
+      <li>Newsletter subscription can be cancelled at any time via the unsubscribe link in any email</li>
+      <li>SaaS services are provided "as-is" without warranty of fitness for any particular purpose</li>
+      <li>Free-tier rate limits apply; abuse may result in account suspension without notice</li>
+      <li>Paid services are governed by the specific subscription terms presented at signup</li>
+    </ul>
+
+    <h2>External links</h2>
+
+    <p>
+      We link to external sites in posts and resource lists. We do not control those sites and are
+      not responsible for their content, privacy practices, or availability. Outbound links do not
+      constitute endorsement.
+    </p>
+
+    <h2>Disclaimer of warranties</h2>
+
+    <p>
+      The site is provided "as-is" without warranty of any kind. We do not warrant that information
+      is accurate, complete, or current; that the site will be uninterrupted or error-free; or that
+      defects will be corrected. To the maximum extent permitted by law, we disclaim all warranties,
+      express or implied.
+    </p>
+
+    <h2>Limitation of liability</h2>
+
+    <p>
+      To the maximum extent permitted by law, the AI Sec Network and its operators are not liable
+      for any indirect, incidental, special, consequential, or punitive damages arising from your
+      use of the site. Our aggregate liability for any direct damages is limited to the greater of
+      USD $100 or the amount you have paid us in the prior 12 months (which is $0 for free-tier
+      users).
+    </p>
+
+    <h2>Indemnification</h2>
+
+    <p>
+      You agree to indemnify and hold harmless the AI Sec Network and its operators from any claim
+      arising from your violation of these Terms or your misuse of the site or services.
+    </p>
+
+    <h2>Governing law and disputes</h2>
+
+    <p>
+      These Terms are governed by the laws of the operator's jurisdiction. Disputes will first be
+      attempted to be resolved through good-faith correspondence at
+      <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. If unresolved after 30 days, disputes
+      may be brought in the operator's jurisdiction.
+    </p>
+
+    <h2>Changes to terms</h2>
+
+    <p>
+      We may update these Terms. Material changes will be flagged at the top of this page for at
+      least 30 days. Continued use after the effective date constitutes acceptance.
+    </p>
+
+    <h2>Contact</h2>
+
+    <p>
+      <strong>Email</strong>: <a href={`mailto:${contactEmail}`}>{contactEmail}</a><br />
+      <strong>Operator</strong>: AI Sec Network
+    </p>
+
+    <p>
+      <em>These Terms are provided as-is for informational purposes and do not constitute legal
+      advice.</em>
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+.legal { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 6rem; font-family: var(--font-body); line-height: 1.6; }
+.legal h1 { font-family: var(--font-display); font-size: 2.5rem; margin: 0 0 0.5rem; letter-spacing: -0.02em; }
+.legal h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 2.5rem 0 1rem; letter-spacing: -0.01em; }
+.legal h3 { font-family: var(--font-display); font-size: 1.125rem; margin: 1.5rem 0 0.75rem; }
+.legal .meta { color: rgb(var(--muted-fg) / 0.85); font-size: 0.875rem; margin-bottom: 2rem; }
+.legal p { margin: 0.75rem 0; }
+.legal ul { padding-left: 1.5rem; margin: 0.75rem 0; }
+.legal li { margin: 0.4rem 0; }
+.legal a { color: rgb(var(--brand-accent-rgb)); text-decoration: underline; }
+.legal a:hover { opacity: 0.8; }
+</style>
