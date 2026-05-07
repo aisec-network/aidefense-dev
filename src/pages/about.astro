@@ -10,6 +10,8 @@ const persona = {
 const avatarUrl = "https://aisec-imagegen.th3gptoperator.workers.dev/?prompt=Professional%20headshot%20of%20Hannah%20Linden%2C%20a%20blonde%20European%20woman%20in%20her%20early%2040s%2C%20professional%20background%2C%20thoughtful%20look%2C%20photorealistic%2C%20professional%20headshot%2C%20square&aspect=square";
 ---
 <BaseLayout title={`About ${persona.name}`} description={persona.bioShort}>
+  <script type="application/ld+json" set:html={JSON.stringify({"@context": "https://schema.org", "@type": "Person", "name": "Hannah Linden", "description": "Privacy-tech policy researcher. Covers GDPR, the EU AI Act, and global AI governance. Writes for practitioners who need to understand the legal landscape, not just the technical one.", "url": "https://aidefense.dev/about", "knowsAbout": ["measured", "regulation-aware", "EU-perspective", "citation-heavy"], "sameAs": ["https://aiprivacy.report/about", "https://promptinjection.report/about", "https://aimoderationtools.com/about", "https://neuralwatch.org/about"], "jobTitle": "Measured"})}></script>
+
   <article class="prose mx-auto max-w-2xl py-16 px-4">
     <h1>About {persona.name}</h1>
     <img src={avatarUrl} alt={persona.name} width="200" height="200" style="border-radius:50%;object-fit:cover;float:right;margin:0 0 1rem 1.5rem;" loading="eager" />
