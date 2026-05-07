@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1d4ed8" stop-opacity="0" />
+      <stop offset="1" stop-color="#1d4ed8" stop-opacity="0.18" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#eff6ff" />
+  <circle cx="1080" cy="80" r="50" fill="#1d4ed8" opacity="0.85" />
+  
+  <g transform="translate(80, 200)">
+    <text font-family="Spectral, system-ui, sans-serif" font-size="78" font-weight="700" fill="#1e3a5f" letter-spacing="-2">
+      AI Defense
+    </text>
+    <text y="120" font-family="Inter, system-ui, sans-serif" font-size="32" fill="#93c5fd" letter-spacing="0">
+      Defending AI systems: policy meets implementation.
+    </text>
+    <text y="280" font-family="Inter, monospace" font-size="22" fill="#1d4ed8" letter-spacing="2" text-transform="uppercase">
+      aidefense.dev
+    </text>
+  </g>
+</svg>

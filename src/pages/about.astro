@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const persona = {
+  name: "Hannah Linden",
+  bioShort: "Privacy-tech policy researcher. Covers GDPR, the EU AI Act, and global AI governance. Writes for practitioners who need to understand the legal landscape, not just the technical one.",
+  bioLong: "Hannah Linden researches the intersection of AI systems and privacy law, with a focus on EU and US regulatory frameworks. She holds an LLM with a focus on technology law and has advised on GDPR compliance for AI companies. Her writing translates regulatory complexity for technical teams who need to know what compliance actually requires \u2014 not just what regulators say in press releases.",
+  voice: ["measured", "regulation-aware", "EU-perspective", "citation-heavy"],
+  sites: ["aiprivacy-report", "promptinjection-report", "aimoderationtools-com", "neuralwatch-org"],
+};
+const avatarUrl = "https://aisec-imagegen.th3gptoperator.workers.dev/?prompt=Professional%20headshot%20of%20Hannah%20Linden%2C%20a%20blonde%20European%20woman%20in%20her%20early%2040s%2C%20professional%20background%2C%20thoughtful%20look%2C%20photorealistic%2C%20professional%20headshot%2C%20square&aspect=square";
+---
+<BaseLayout title={`About ${persona.name}`} description={persona.bioShort}>
+  <article class="prose mx-auto max-w-2xl py-16 px-4">
+    <h1>About {persona.name}</h1>
+    <img src={avatarUrl} alt={persona.name} width="200" height="200" style="border-radius:50%;object-fit:cover;float:right;margin:0 0 1rem 1.5rem;" loading="eager" />
+    <p class="lead">{persona.bioShort}</p>
+    <p>{persona.bioLong}</p>
+    <h2>Voice</h2>
+    <p>{persona.voice.join(" · ")}</p>
+    {persona.sites.length > 0 && (
+      <>
+        <h2>Sister sites</h2>
+        <p>{persona.name} also writes for:</p>
+        <ul>
+          {persona.sites.map(s => {
+            const dom = s.replace(/-([^-]+)$/, ".$1");
+            return <li><a href={`https://${dom}`} target="_blank" rel="noreferrer">{dom}</a></li>;
+          })}
+        </ul>
+      </>
+    )}
+  </article>
+</BaseLayout>

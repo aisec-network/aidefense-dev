@@ -32,7 +32,7 @@ const fullTitle = title === siteConfig.title ? title : `${title} — ${siteConfi
 const url = canonical || new URL(Astro.url.pathname, siteConfig.url).toString();
 const ogImage = image
   ? new URL(image, siteConfig.url).toString()
-  : new URL("/og-default.png", siteConfig.url).toString();
+  : new URL("/og-card.svg", siteConfig.url).toString();
 
 const cluster = clusters[siteConfig.brand.cluster];
 const fontsHref = googleFontsHref(cluster);

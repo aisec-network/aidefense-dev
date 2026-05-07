@@ -30,7 +30,7 @@ export interface SiteConfig {
 }
 
 export const portfolio: SisterSite[] = [
-  { domain: "adversarialml.dev", url: "https://adversarialml.dev", title: "Adversarial ML", tagline: "Working adversarial ML — exploits, defenses, and the gap between" },
+  { domain: "adversarialml.dev", url: "https://adversarialml.dev", title: "Adversarial ML", tagline: "Defending AI systems: policy meets implementation." },
   { domain: "ai-alert.org", url: "https://ai-alert.org", title: "AI Alert", tagline: "AI incident & vulnerability tracker" },
   { domain: "aiattacks.dev", url: "https://aiattacks.dev", title: "AI Attacks", tagline: "Practitioner-grade AI red team techniques and tooling" },
   { domain: "aidefense.dev", url: "https://aidefense.dev", title: "AI Defense", tagline: "Defensive AI engineering — guardrails, hardening, response" },
