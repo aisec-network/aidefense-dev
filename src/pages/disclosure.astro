@@ -1,0 +1,154 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteConfig } from "../config/site";
+
+const lastUpdated = "2026-05-07";
+const contactEmail = siteConfig.email?.contact || `editor@${siteConfig.domain}`;
+---
+<BaseLayout title="Editorial Disclosure" description={`Editorial standards and disclosures for ${siteConfig.title}.`}>
+  <article class="legal">
+    <h1>Editorial Disclosure</h1>
+    <p class="meta">Last updated: {lastUpdated}</p>
+
+    <p>
+      Our editorial integrity is the product. This page explains how we make money, who pays us,
+      what affects our coverage, and what does not.
+    </p>
+
+    <h2>How we monetize</h2>
+
+    <p>This site is operated as part of the AI Sec Network. The network's revenue sources, in order of priority:</p>
+
+    <ol>
+      <li><strong>Affiliate links</strong> in editorial content (HackTheBox, TryHackMe, Pluralsight, Coursera, etc.). When we recommend a tool or training, the link may include a referral parameter that pays us a commission if you sign up. The commission does not change your price.</li>
+      <li><strong>Paid SaaS subscriptions</strong> (AI Red Team Gym, Prompt Injection Scanner, future products). These are products we built; they're separate from coverage.</li>
+      <li><strong>Newsletter sponsorship</strong> (currently inactive). When we begin accepting sponsored slots, they will be clearly labeled as such.</li>
+      <li><strong>Display advertising</strong> (currently inactive). If we begin running display ads, they will be from a single transparent network and will not influence editorial.</li>
+    </ol>
+
+    <p>
+      We do <strong>not</strong> currently accept: paid placement in posts, sponsored content disguised
+      as editorial, "as seen on" badges from vendors, or undisclosed affiliate placement.
+    </p>
+
+    <h2>Affiliate link handling</h2>
+
+    <p>
+      When a post contains an affiliate link, the link target shows the destination domain on hover.
+      Where applicable, we add an in-text disclosure: <em>"Affiliate link — we may receive a commission."</em>
+    </p>
+
+    <p>
+      Affiliate links are added because we recommend the product, not because the program offers
+      the highest commission. We have publicly declined affiliate enrollment from products we
+      consider unsuitable for our audience.
+    </p>
+
+    <h2>What affects our coverage</h2>
+
+    <p>The factors that legitimately shape what we cover:</p>
+
+    <ul>
+      <li>Reader interest (queries, support tickets, newsletter replies)</li>
+      <li>Material developments in the field (incidents, regulations, research)</li>
+      <li>Editorial calendar planning (cluster cadence, seasonal themes)</li>
+      <li>Direct experience with a tool or technique</li>
+    </ul>
+
+    <h2>What does NOT affect our coverage</h2>
+
+    <ul>
+      <li>Whether a vendor is in our affiliate program</li>
+      <li>Whether a vendor has reached out to us</li>
+      <li>Whether a vendor has offered free credits, trials, or hardware</li>
+      <li>Whether a competitor is in our affiliate program</li>
+      <li>Whether the topic is "good for SEO" — we don't write thin posts to capture keywords</li>
+    </ul>
+
+    <h2>Conflicts of interest</h2>
+
+    <p>
+      The AI Sec Network's operators may hold equity in or have prior employment with companies
+      we cover. When a meaningful conflict exists, the post will disclose it inline. Examples:
+    </p>
+
+    <ul>
+      <li>Reviewing a product made by a company where the author was previously employed</li>
+      <li>Covering a vendor where the author holds direct equity</li>
+      <li>Reviewing a competitor of a company that has paid us</li>
+    </ul>
+
+    <p>
+      We do not always know who-is-related-to-what at sign-up time. If you spot a conflict we
+      missed, email <a href={`mailto:${contactEmail}`}>{contactEmail}</a> and we will add the
+      disclosure.
+    </p>
+
+    <h2>Free trials and review units</h2>
+
+    <p>
+      We may accept free trial credits, demo accounts, or extended trials of products we are
+      evaluating. We do not retain hardware, branded merchandise, or other physical gifts beyond
+      a nominal value (e.g., a t-shirt at a conference). Any trial credits or accounts received
+      are disclosed in the relevant post.
+    </p>
+
+    <h2>Source verification</h2>
+
+    <p>
+      For news cluster content (incident reporting, regulatory developments), we follow a documented
+      <a href="https://aiincidents.org/ai-incident-logging-methodology/">verification methodology</a>
+      with five source tiers. Every published incident has at least one Tier 1-2 source.
+    </p>
+
+    <h2>AI involvement</h2>
+
+    <p>
+      Posts on this site are produced through a workflow that includes AI assistance for drafting,
+      research synthesis, and copy editing. All published posts are reviewed before publication.
+      The byline reflects the editorial persona responsible for the cluster — a single persona
+      writes for multiple sites in the same cluster, by design, for editorial consistency.
+    </p>
+
+    <p>
+      We do not pretend posts are written by named individuals who do not exist behind the persona.
+      The personas are pseudonymous editorial identities, not fabricated humans.
+    </p>
+
+    <h2>Corrections</h2>
+
+    <p>
+      When we get something wrong, we correct it visibly with a diff at the bottom of the affected
+      post. We do not silently edit. The correction log is at the bottom of relevant posts.
+    </p>
+
+    <h2>Reader feedback</h2>
+
+    <p>
+      We read every reply to newsletter dispatches and every email. We can't always respond, but
+      tips and corrections are read. Channel:
+      <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+    </p>
+
+    <h2>Operator</h2>
+
+    <p>
+      AI Sec Network is an independent publication network. We are not owned by, operated by, or
+      affiliated with any of the AI providers, security vendors, or platforms we cover. If our
+      ownership status changes, we will update this page.
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+.legal { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 6rem; font-family: var(--font-body); line-height: 1.6; }
+.legal h1 { font-family: var(--font-display); font-size: 2.5rem; margin: 0 0 0.5rem; letter-spacing: -0.02em; }
+.legal h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 2.5rem 0 1rem; letter-spacing: -0.01em; }
+.legal .meta { color: rgb(var(--muted-fg) / 0.85); font-size: 0.875rem; margin-bottom: 2rem; }
+.legal p, .legal ol, .legal ul { margin: 0.75rem 0; }
+.legal ol, .legal ul { padding-left: 1.5rem; }
+.legal li { margin: 0.4rem 0; }
+.legal a { color: rgb(var(--brand-accent-rgb)); text-decoration: underline; }
+.legal a:hover { opacity: 0.8; }
+.legal em { color: rgb(var(--muted-fg) / 0.95); }
+</style>
