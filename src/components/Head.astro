@@ -1,6 +1,6 @@
 ---
 import { siteConfig } from "@config/site";
-import { clusters, googleFontsHref } from "@config/clusters";
+import { identity } from "@config/identity";
 
 interface Props {
   title?: string;
@@ -32,10 +32,9 @@ const fullTitle = title === siteConfig.title ? title : `${title} — ${siteConfi
 const url = canonical || new URL(Astro.url.pathname, siteConfig.url).toString();
 const ogImage = image
   ? new URL(image, siteConfig.url).toString()
-  : new URL("/og-card.svg", siteConfig.url).toString();
+  : new URL("/og-default.png", siteConfig.url).toString();
 
-const cluster = clusters[siteConfig.brand.cluster];
-const fontsHref = googleFontsHref(cluster);
+const fontsHref = identity.font.google_fonts_url;
 const plausibleDomain = siteConfig.analytics.plausibleDomain || new URL(siteConfig.url).hostname;
 ---
 
@@ -71,7 +70,7 @@ const plausibleDomain = siteConfig.analytics.plausibleDomain || new URL(siteConf
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-<!-- Cluster-specific Google Fonts: preconnect, preload primary, async load -->
+<!-- Per-site identity Google Fonts: preconnect, preload primary, async load -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
@@ -99,6 +98,20 @@ const plausibleDomain = siteConfig.analytics.plausibleDomain || new URL(siteConf
     defer
     src="https://static.cloudflareinsights.com/beacon.min.js"
     data-cf-beacon={`{"token": "${siteConfig.analytics.cfBeaconToken}"}`}
+  />
+)}
+
+{type === "website" && (
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: siteConfig.title,
+      url: siteConfig.url,
+      logo: `${siteConfig.url}/og-default.png`,
+      sameAs: siteConfig.sister.map((s) => s.url),
+    })}
   />
 )}
 

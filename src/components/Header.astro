@@ -1,12 +1,22 @@
 ---
 import { siteConfig } from "@config/site";
 import { domainCluster, clusters } from "@config/clusters";
+import { identity } from "@config/identity";
 
-const nav = [
+const primaryNav = [
   { href: "/", label: "Home" },
-  { href: "/posts", label: "Posts" },
-  { href: "/about", label: "About" },
+  { href: "/posts", label: identity.voice.nav_posts },
+  { href: "/topics", label: "Topics" },
 ];
+
+const secondaryNav = [
+  { href: "/tools", label: "Tools" },
+  { href: "/glossary", label: "Glossary" },
+  { href: "/resources", label: "Resources" },
+  { href: "/about", label: identity.voice.nav_about },
+];
+
+const allNav = [...primaryNav, ...secondaryNav];
 
 // Up to 5 sister sites in the same cluster — for the dropdown hint.
 const myCluster = siteConfig.brand.cluster;
@@ -18,22 +28,26 @@ const clusterLabel = clusters[myCluster].label;
 
 <header class="border-b border-default sticky top-0 z-40 backdrop-blur bg-[rgb(var(--bg)/0.85)]">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
-    <a href="/" class="font-display font-bold tracking-tight text-lg hover:text-accent-600 transition flex items-center gap-2">
+    <a href="/" class="font-display font-bold tracking-tight text-lg hover:text-accent-600 transition flex items-center gap-2 shrink-0">
       <span aria-hidden="true" class="inline-block size-2.5 rounded-sm bg-accent-600"></span>
       {siteConfig.title}
     </a>
-    <nav class="flex items-center gap-1 sm:gap-3 text-sm">
-      {nav.map((item) => (
-        <a href={item.href} class="px-2 py-1 rounded text-muted hover:text-[rgb(var(--fg))] hover:bg-muted transition">
+
+    {/* Desktop nav — full bar */}
+    <nav class="hidden sm:flex items-center gap-1 text-sm flex-1 justify-end">
+      {allNav.map((item) => (
+        <a
+          href={item.href}
+          class="px-2 py-1 rounded text-muted hover:text-[rgb(var(--fg))] hover:bg-muted transition whitespace-nowrap"
+        >
           {item.label}
         </a>
       ))}
 
       {sisterInCluster.length > 0 && (
-        <details class="relative hidden sm:block">
+        <details class="relative">
           <summary class="list-none cursor-pointer select-none px-2 py-1 rounded text-muted hover:text-[rgb(var(--fg))] hover:bg-muted transition flex items-center gap-1">
-            More
-            <span class="text-xs text-muted">▾</span>
+            More <span class="text-xs text-muted">▾</span>
           </summary>
           <div class="absolute right-0 top-full mt-1 min-w-[16rem] rounded-lg border border-default bg-surface shadow-lg py-2 z-50">
             <div class="px-3 pt-1 pb-2 text-[0.65rem] uppercase tracking-wider text-muted">
@@ -63,12 +77,59 @@ const clusterLabel = clusters[myCluster].label;
         <span class="hidden dark:block">☀</span>
       </button>
     </nav>
+
+    {/* Mobile: primary links + hamburger for rest */}
+    <div class="flex sm:hidden items-center gap-1 text-sm">
+      {primaryNav.map((item) => (
+        <a href={item.href} class="px-2 py-1 rounded text-muted hover:text-[rgb(var(--fg))] hover:bg-muted transition">
+          {item.label}
+        </a>
+      ))}
+
+      <details class="relative">
+        <summary class="list-none cursor-pointer select-none px-2 py-1 rounded text-muted hover:text-[rgb(var(--fg))] hover:bg-muted transition" aria-label="More navigation">
+          ☰
+        </summary>
+        <div class="absolute right-0 top-full mt-1 min-w-[13rem] rounded-lg border border-default bg-surface shadow-lg py-2 z-50">
+          {secondaryNav.map((item) => (
+            <a href={item.href} class="block px-3 py-1.5 text-sm hover:bg-muted hover:text-accent-600 transition">
+              {item.label}
+            </a>
+          ))}
+          {sisterInCluster.length > 0 && (
+            <>
+              <div class="my-1.5 border-t border-default" />
+              <div class="px-3 pb-1 text-[0.65rem] uppercase tracking-wider text-muted">{clusterLabel} network</div>
+              {sisterInCluster.map((s) => (
+                <a href={s.url} rel="noopener" class="block px-3 py-1.5 text-sm hover:bg-muted hover:text-accent-600 transition">
+                  <span class="font-medium">{s.title}</span>
+                </a>
+              ))}
+            </>
+          )}
+        </div>
+      </details>
+
+      <button
+        id="theme-toggle-mobile"
+        type="button"
+        aria-label="Toggle theme"
+        class="px-2 py-1 rounded text-muted hover:text-[rgb(var(--fg))] hover:bg-muted text-base"
+      >
+        <span class="block dark:hidden">☾</span>
+        <span class="hidden dark:block">☀</span>
+      </button>
+    </div>
   </div>
 </header>
 
 <script is:inline>
-  document.getElementById("theme-toggle")?.addEventListener("click", () => {
-    const isDark = document.documentElement.classList.toggle("dark");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-  });
+  function _applyToggle(id) {
+    document.getElementById(id)?.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    });
+  }
+  _applyToggle("theme-toggle");
+  _applyToggle("theme-toggle-mobile");
 </script>

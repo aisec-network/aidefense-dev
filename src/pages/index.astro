@@ -7,21 +7,24 @@ import HomeDashboard from "@components/clusters/HomeDashboard.astro";
 import HomeNewspaper from "@components/clusters/HomeNewspaper.astro";
 import HomeCivic from "@components/clusters/HomeCivic.astro";
 import HomeProduct from "@components/clusters/HomeProduct.astro";
+import HomeKiosk from "@components/clusters/HomeKiosk.astro";
 import { siteConfig } from "@config/site";
-import { clusters } from "@config/clusters";
+import { identity } from "@config/identity";
 
 const posts = (await getCollection("posts", ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const layout = clusters[siteConfig.brand.cluster].homepageLayout;
+const layoutId = identity.layout.id;
+const voice = identity.voice;
 ---
 
 <BaseLayout title={siteConfig.title} description={siteConfig.description} fullBleed>
-  {layout === "editorial"  && <HomeEditorial  posts={posts} />}
-  {layout === "dashboard"  && <HomeDashboard  posts={posts} />}
-  {layout === "newspaper"  && <HomeNewspaper  posts={posts} />}
-  {layout === "civic"      && <HomeCivic      posts={posts} />}
-  {layout === "product"    && <HomeProduct    posts={posts} />}
+  {layoutId === "magazine"  && <HomeEditorial  posts={posts} voice={voice} />}
+  {layoutId === "dashboard" && <HomeDashboard  posts={posts} voice={voice} />}
+  {layoutId === "feed"      && <HomeNewspaper  posts={posts} voice={voice} />}
+  {layoutId === "longform"  && <HomeCivic      posts={posts} voice={voice} />}
+  {layoutId === "directory" && <HomeProduct    posts={posts} voice={voice} />}
+  {layoutId === "kiosk"     && <HomeKiosk      posts={posts} voice={voice} />}
 
   <div class="max-w-3xl mx-auto px-4 sm:px-6 pb-12">
     <NewsletterSignup />

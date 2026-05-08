@@ -6,6 +6,7 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import { siteConfig } from "@config/site";
 import { hueToAccentRamp } from "@config/clusters";
+import { identity } from "@config/identity";
 
 interface Props {
   title?: string;
@@ -18,22 +19,17 @@ interface Props {
   author?: string;
   tags?: string[];
   noindex?: boolean;
-  /** When true, BaseLayout renders only Head/Header/Footer + slot
-      with no <main> wrapper, so cluster homepages can take the
-      full viewport width. */
   fullBleed?: boolean;
 }
 
 const props = Astro.props;
 const cluster = siteConfig.brand.cluster;
-const ramp = hueToAccentRamp(siteConfig.brand.accentHue);
+const ramp = hueToAccentRamp(identity.palette.hue);
 
-// Inline the per-site accent ramp + hue into a tiny style block so it lands
-// on <body> without an extra stylesheet round-trip.
 const accentVars = Object.entries(ramp)
   .map(([stop, rgb]) => `--accent-${stop}:${rgb};`)
   .join("");
-const inlineStyle = `--accent-hue:${siteConfig.brand.accentHue};${accentVars}`;
+const inlineStyle = `--accent-hue:${identity.palette.hue};${accentVars}`;
 ---
 
 <!doctype html>
@@ -42,8 +38,10 @@ const inlineStyle = `--accent-hue:${siteConfig.brand.accentHue};${accentVars}`;
     <Head {...props} />
   </head>
   <body
-    class="min-h-screen flex flex-col"
+    class={`min-h-screen flex flex-col density-${identity.layout.density} layout-${identity.layout.id} font-${identity.palette.neutral_family}`}
     data-cluster={cluster}
+    data-layout={identity.layout.id}
+    data-density={identity.layout.density}
     style={inlineStyle}
   >
     <Header />

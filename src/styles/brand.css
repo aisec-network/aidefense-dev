@@ -1,24 +1,35 @@
-/* Brand for aidefense-dev: cluster=defensive, variant=v4_grid_cards_elevated */
-@import url("https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+/* Brand for aidefense-dev: identity=f26_mono_jetbrains_inter+p15_h338_slate+longform+v03_research */
 
-body[data-cluster='defensive'] {
-  --bg: 239 246 255;
-  --fg: 30 58 95;
-  --surface: 219 234 254;
-  --muted: 239 246 255;
-  --muted-fg: 147 197 253;
-  --border: 147 197 253;
-  --font-display: "Spectral", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
-  --accent-400: 29 78 216;
-  --accent-500: 29 78 216;
-  --accent-600: 29 78 216;
-  --accent-700: 29 78 216;
-  --brand-tone: "defense-blue-official";
-  --brand-accent-rgb: 29 78 216;
-  --brand-variant: "v4_grid_cards_elevated";
+body[data-cluster] {
+  --bg: 255 255 255;
+  --fg: 15 23 42;
+  --muted: 248 250 252;
+  --muted-fg: 71 85 105;
+  --border: 226 232 240;
+  --surface: 255 255 255;
+  --surface-alt: 248 250 252;
+  --font-display: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-body: Inter, "Helvetica Neue", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --brand-accent-rgb: 223 22 96;
+  --brand-identity-font: "f26_mono_jetbrains_inter";
+  --brand-identity-palette: "p15_h338_slate";
+  --brand-identity-layout: "longform";
+  --brand-identity-voice: "v03_research";
 }
-html.dark body[data-cluster='defensive'] {
-  --bg: 239 246 255; --fg: 30 58 95; --surface: 219 234 254;
-  --accent-500: 29 78 216; --accent-600: 29 78 216;
+
+html.dark body[data-cluster] {
+  --bg: 15 23 42;
+  --fg: 248 250 252;
+  --muted: 30 41 59;
+  --muted-fg: 148 163 184;
+  --border: 51 65 85;
+  --surface: 15 23 42;
+  --surface-alt: 30 41 59;
+  --brand-accent-rgb: 242 95 149;
 }
+
+/* Density modifiers */
+body.density-loose  { --space-section: 5rem; }
+body.density-normal { --space-section: 3rem; }
+body.density-dense  { --space-section: 1.5rem; }
