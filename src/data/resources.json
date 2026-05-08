@@ -1,0 +1,210 @@
+{
+  "title": "Defensive AI Security Resources",
+  "description": "Papers, tools, frameworks, and communities for teams building guardrails, monitoring, and safety controls into AI systems.",
+  "categories": [
+    {
+      "name": "Foundational Papers",
+      "items": [
+        {
+          "title": "Constitutional AI: Harmlessness from AI Feedback",
+          "authors": "Bai et al., 2022",
+          "url": "https://arxiv.org/abs/2212.08073",
+          "tag": "alignment"
+        },
+        {
+          "title": "Llama Guard: LLM-based Input-Output Safeguard",
+          "authors": "Inan et al., 2023",
+          "url": "https://arxiv.org/abs/2312.06674",
+          "tag": "guardrails"
+        },
+        {
+          "title": "NeMo Guardrails: A Toolkit for Controllable and Safe LLM Applications",
+          "authors": "Rebedea et al., 2023",
+          "url": "https://arxiv.org/abs/2310.10501",
+          "tag": "guardrails"
+        },
+        {
+          "title": "Baseline Defenses for Adversarial Attacks Against Aligned Language Models",
+          "authors": "Jain et al., 2023",
+          "url": "https://arxiv.org/abs/2309.00614",
+          "tag": "defenses"
+        },
+        {
+          "title": "Detecting Language Model Attacks with Perplexity",
+          "authors": "Alon & Kamfonas, 2023",
+          "url": "https://arxiv.org/abs/2308.14132",
+          "tag": "detection"
+        },
+        {
+          "title": "Self-Refine: Iterative Refinement with Self-Feedback",
+          "authors": "Madaan et al., 2023",
+          "url": "https://arxiv.org/abs/2303.17651",
+          "tag": "alignment"
+        }
+      ]
+    },
+    {
+      "name": "Frameworks & Standards",
+      "items": [
+        {
+          "title": "NIST AI Risk Management Framework (AI RMF)",
+          "authors": "NIST",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "tag": "framework"
+        },
+        {
+          "title": "OWASP LLM Top 10",
+          "authors": "OWASP",
+          "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+          "tag": "framework"
+        },
+        {
+          "title": "MITRE ATLAS \u2014 Mitigations",
+          "authors": "MITRE",
+          "url": "https://atlas.mitre.org/mitigations/",
+          "tag": "framework"
+        },
+        {
+          "title": "ISO/IEC 42001 AI Management System",
+          "authors": "ISO",
+          "url": "https://www.iso.org/standard/81230.html",
+          "tag": "standard"
+        },
+        {
+          "title": "EU AI Act \u2014 High-Risk System Requirements",
+          "authors": "European Commission",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689",
+          "tag": "regulation"
+        }
+      ]
+    },
+    {
+      "name": "Tools & Libraries",
+      "items": [
+        {
+          "title": "Guardrails AI",
+          "url": "https://www.guardrailsai.com/",
+          "tag": "guardrails",
+          "description": "Python framework for adding structural and semantic validation to LLM outputs."
+        },
+        {
+          "title": "NVIDIA NeMo Guardrails",
+          "url": "https://github.com/NVIDIA/NeMo-Guardrails",
+          "tag": "guardrails",
+          "description": "Programmable guardrails for LLM-based apps with Colang DSL."
+        },
+        {
+          "title": "Lakera Guard",
+          "url": "https://www.lakera.ai/",
+          "tag": "detection",
+          "description": "Real-time LLM security API for detecting prompt injection and harmful content."
+        },
+        {
+          "title": "Protect AI",
+          "url": "https://protectai.com/",
+          "tag": "platform",
+          "description": "AI security platform covering model scanning, supply chain, and runtime protection."
+        },
+        {
+          "title": "Presidio (Microsoft)",
+          "url": "https://microsoft.github.io/presidio/",
+          "tag": "pii",
+          "description": "PII detection and anonymization library for LLM pipelines."
+        },
+        {
+          "title": "LlamaIndex \u2014 Security Best Practices",
+          "url": "https://docs.llamaindex.ai/en/stable/",
+          "tag": "rag",
+          "description": "RAG framework with access-control patterns and retrieval safeguards."
+        },
+        {
+          "title": "rebuff",
+          "url": "https://github.com/protectai/rebuff",
+          "tag": "detection",
+          "description": "Open-source prompt injection detector using layered heuristics and LLM-based checks."
+        },
+        {
+          "title": "LLM-Guard",
+          "url": "https://llm-guard.com/",
+          "tag": "guardrails",
+          "description": "Input/output scanner suite for common LLM security risks."
+        }
+      ]
+    },
+    {
+      "name": "Talks & Videos",
+      "items": [
+        {
+          "title": "DEF CON AI Village Talks (YouTube)",
+          "url": "https://www.youtube.com/@AIVillageDEFCON",
+          "tag": "conference",
+          "description": "Presentations on AI security including red-teaming, defenses, and policy."
+        },
+        {
+          "title": "USENIX Security AI Track",
+          "url": "https://www.usenix.org/conferences/byname/108",
+          "tag": "conference",
+          "description": "Peer-reviewed research on AI and ML security, with talk recordings."
+        },
+        {
+          "title": "AI Safety Fundamentals (BlueDot)",
+          "url": "https://aisafetyfundamentals.com/",
+          "tag": "course",
+          "description": "Free curriculum on technical AI safety including alignment and interpretability."
+        }
+      ]
+    },
+    {
+      "name": "Certifications & Training",
+      "items": [
+        {
+          "title": "GIAC Machine Learning Security (GMLS)",
+          "url": "https://www.giac.org/certifications/machine-learning-security-gmls/",
+          "tag": "certification",
+          "description": "GIAC certification covering ML security, threat modeling, and defense strategies."
+        },
+        {
+          "title": "EC-Council Certified AI Security Practitioner",
+          "url": "https://www.eccouncil.org/train-certify/certified-ai-security-practitioner-casp/",
+          "tag": "certification",
+          "description": "Practical AI security certification covering LLM attacks and defensive controls."
+        },
+        {
+          "title": "Secure AI Engineer (Pluralsight)",
+          "url": "https://www.pluralsight.com/",
+          "tag": "course",
+          "description": "Courses on building secure AI applications and detecting ML vulnerabilities."
+        }
+      ]
+    },
+    {
+      "name": "Communities",
+      "items": [
+        {
+          "title": "MLSecOps Community",
+          "url": "https://mlsecops.com/community",
+          "tag": "community",
+          "description": "Practitioners securing ML pipelines, model registries, and LLM deployments."
+        },
+        {
+          "title": "OWASP AI Security and Privacy Guide",
+          "url": "https://owasp.org/www-project-ai-security-and-privacy-guide/",
+          "tag": "community",
+          "description": "OWASP working group on AI security best practices and guidance."
+        },
+        {
+          "title": "AI Risk and Governance Forum",
+          "url": "https://www.partnershiponai.org/",
+          "tag": "policy",
+          "description": "Multi-stakeholder body producing AI safety and governance guidelines."
+        },
+        {
+          "title": "HuggingFace Safety Team",
+          "url": "https://huggingface.co/spaces/evaluate-measurement/regard",
+          "tag": "tools",
+          "description": "Open-source safety evaluations and bias benchmarks for transformer models."
+        }
+      ]
+    }
+  ]
+}

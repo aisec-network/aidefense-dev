@@ -1,0 +1,64 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  const tagMap = new Map<string, typeof posts>();
+  for (const p of posts) {
+    for (const t of p.data.tags || []) {
+      if (!tagMap.has(t)) tagMap.set(t, []);
+      tagMap.get(t)!.push(p);
+    }
+  }
+  return [...tagMap.entries()].map(([tag, taggedPosts]) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: taggedPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props as {
+  tag: string;
+  posts: Awaited<ReturnType<typeof getCollection<"posts">>>;
+};
+
+const pageTitle = `#${tag}`;
+const pageDescription = `${posts.length} post${posts.length === 1 ? "" : "s"} tagged ${tag}.`;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <article class="max-w-3xl mx-auto">
+    <header class="mb-10">
+      <p class="text-xs uppercase tracking-wider text-accent-700 font-mono mb-2">Tag</p>
+      <h1 class="font-display font-bold text-4xl sm:text-5xl tracking-tight mb-4">#{tag}</h1>
+      <p class="text-muted">{pageDescription}</p>
+      <p class="text-sm text-muted mt-3">
+        <a href="/topics" class="text-accent-700 hover:underline">← All topics</a>
+      </p>
+    </header>
+
+    <ul class="divide-y divide-[rgb(var(--border))]">
+      {posts.map((p) => (
+        <li class="py-5">
+          <a href={`/posts/${p.slug}`} class="group block">
+            {p.data.category && (
+              <div class="text-[0.65rem] uppercase tracking-wider text-accent-700 font-mono mb-1">
+                {p.data.category}
+              </div>
+            )}
+            <h2 class="font-display font-semibold text-lg leading-snug group-hover:text-accent-600 transition">
+              {p.data.title}
+            </h2>
+            <p class="text-sm text-muted mt-1 line-clamp-2">{p.data.description}</p>
+            <time class="text-xs text-muted mt-2 block font-mono" datetime={p.data.pubDate.toISOString()}>
+              {p.data.pubDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+            </time>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </article>
+</BaseLayout>

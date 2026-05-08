@@ -1,0 +1,93 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const tagCounts = new Map<string, number>();
+const categoryCounts = new Map<string, number>();
+const postsByCategory = new Map<string, typeof posts>();
+
+for (const p of posts) {
+  for (const t of p.data.tags || []) {
+    tagCounts.set(t, (tagCounts.get(t) || 0) + 1);
+  }
+  if (p.data.category) {
+    const c = p.data.category;
+    categoryCounts.set(c, (categoryCounts.get(c) || 0) + 1);
+    if (!postsByCategory.has(c)) postsByCategory.set(c, []);
+    postsByCategory.get(c)!.push(p);
+  }
+}
+
+const sortedTags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+const sortedCategories = [...categoryCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+
+const pageTitle = "Topics";
+const pageDescription = "Browse posts by category and tag — every topic we cover, with the latest pieces under each.";
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <article class="max-w-4xl mx-auto">
+    <header class="mb-12">
+      <h1 class="font-display font-bold text-4xl sm:text-5xl tracking-tight mb-4">{pageTitle}</h1>
+      <p class="text-lg text-muted leading-snug max-w-2xl">{pageDescription}</p>
+    </header>
+
+    {sortedTags.length > 0 && (
+      <section class="mb-14">
+        <h2 class="font-display font-bold text-2xl tracking-tight mb-5 pb-2 border-b border-default">Tags</h2>
+        <ul class="flex flex-wrap gap-2 not-prose">
+          {sortedTags.map(([tag, count]) => (
+            <li>
+              <a
+                href={`/tags/${encodeURIComponent(tag)}`}
+                class="inline-flex items-baseline gap-1.5 px-3 py-1.5 rounded-full bg-muted text-muted hover:text-accent-700 hover:bg-[rgb(var(--accent-100)/0.6)] transition font-mono text-sm"
+              >
+                <span>#{tag}</span>
+                <span class="text-xs opacity-60">{count}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {sortedCategories.length > 0 && (
+      <section class="mb-14">
+        <h2 class="font-display font-bold text-2xl tracking-tight mb-5 pb-2 border-b border-default">Categories</h2>
+        <div class="space-y-10">
+          {sortedCategories.map(([cat, count]) => {
+            const inCat = (postsByCategory.get(cat) || []).slice(0, 6);
+            return (
+              <section>
+                <h3 class="font-display font-semibold text-xl mb-3 flex items-baseline gap-3">
+                  <a href={`/category/${encodeURIComponent(cat)}`} class="hover:text-accent-600 transition">
+                    {cat}
+                  </a>
+                  <span class="text-xs uppercase tracking-wider text-muted font-mono">{count} posts</span>
+                </h3>
+                <ul class="space-y-3">
+                  {inCat.map((p) => (
+                    <li>
+                      <a href={`/posts/${p.slug}`} class="group block">
+                        <div class="font-medium leading-snug group-hover:text-accent-600 transition">{p.data.title}</div>
+                        <div class="text-sm text-muted line-clamp-1 mt-0.5">{p.data.description}</div>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            );
+          })}
+        </div>
+      </section>
+    )}
+
+    {sortedTags.length === 0 && sortedCategories.length === 0 && (
+      <p class="text-muted">No tagged or categorized posts yet.</p>
+    )}
+  </article>
+</BaseLayout>

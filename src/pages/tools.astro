@@ -1,0 +1,89 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { siteConfig } from "@config/site";
+import toolsData from "@/data/tools.json";
+
+interface Tool {
+  name: string;
+  url: string;
+  license?: string;
+  cost?: string;
+  description: string;
+  our_take?: string;
+}
+
+interface Category {
+  name: string;
+  slug: string;
+  tools: Tool[];
+}
+
+const categories: Category[] = (toolsData as { categories?: Category[] }).categories || [];
+const totalTools = categories.reduce((acc, c) => acc + (c.tools?.length || 0), 0);
+
+const pageTitle = "Tools";
+const pageDescription = `A curated directory of ${totalTools} tools we use, evaluate, and recommend across the AI security landscape — with our take on each.`;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <article class="max-w-4xl mx-auto">
+    <header class="mb-12">
+      <h1 class="font-display font-bold text-4xl sm:text-5xl tracking-tight mb-4">{pageTitle}</h1>
+      <p class="text-lg text-muted leading-snug max-w-2xl">{pageDescription}</p>
+    </header>
+
+    <nav class="mb-12 not-prose" aria-label="Tool categories">
+      <ul class="flex flex-wrap gap-2 text-sm">
+        {categories.map((cat) => (
+          <li>
+            <a
+              href={`#${cat.slug}`}
+              class="inline-block px-3 py-1.5 rounded-full bg-muted text-muted hover:text-accent-700 hover:bg-[rgb(var(--accent-100)/0.6)] transition font-mono"
+            >
+              {cat.name}
+              <span class="text-xs opacity-60 ml-1">({cat.tools?.length || 0})</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    {categories.map((cat) => (
+      <section id={cat.slug} class="mb-16 scroll-mt-20">
+        <h2 class="font-display font-bold text-2xl sm:text-3xl tracking-tight mb-6 pb-2 border-b border-default">
+          {cat.name}
+        </h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {cat.tools?.map((tool) => (
+            <article class="rounded-lg border border-default bg-surface p-5 hover:border-accent-400 transition flex flex-col">
+              <header class="mb-3">
+                <h3 class="font-display font-semibold text-lg leading-tight">
+                  <a
+                    href={tool.url}
+                    target="_blank"
+                    rel="noopener nofollow"
+                    class="hover:text-accent-600 transition"
+                  >
+                    {tool.name}
+                    <span class="inline-block ml-1 text-xs opacity-60" aria-hidden="true">↗</span>
+                  </a>
+                </h3>
+                <div class="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-xs font-mono text-muted">
+                  {tool.license && <span>{tool.license}</span>}
+                  {tool.cost && <span>{tool.cost}</span>}
+                </div>
+              </header>
+              <p class="text-sm leading-relaxed mb-3">{tool.description}</p>
+              {tool.our_take && (
+                <div class="mt-auto pt-3 border-t border-default">
+                  <p class="text-xs uppercase tracking-wider text-accent-700 font-mono mb-1.5">Our take</p>
+                  <p class="text-sm text-muted leading-relaxed">{tool.our_take}</p>
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+  </article>
+</BaseLayout>

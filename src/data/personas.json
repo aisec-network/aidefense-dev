@@ -1,0 +1,146 @@
+{
+  "personas": [
+    {
+      "id": "marcus-reyes",
+      "cluster": "offensive",
+      "name": "Marcus Reyes",
+      "voice": [
+        "confident",
+        "war-stories",
+        "slightly contrarian",
+        "practitioner-first"
+      ],
+      "bio_short": "Red teamer with OSCP + OSEP. Ten years breaking AI systems before it was a job title. Presents at AI Village. Writes about what actually works, not what vendors claim.",
+      "bio_long": "Marcus Reyes is a senior adversarial AI researcher who has been breaking ML systems since before the field had a name. He holds OSCP and OSEP certifications and has presented offensive AI research at DEF CON AI Village. He approaches AI security from a practitioner's lens \u2014 skeptical of vendor claims, focused on reproducible attack chains, and direct about what blue teams actually miss.",
+      "sites": [
+        "adversarialml-dev",
+        "aiattacks-dev",
+        "aisec-blog",
+        "jailbreakdb-com",
+        "jailbreaks-fyi",
+        "mlcves-com",
+        "promptinjection-report"
+      ],
+      "avatar_prompt": "Professional headshot of Marcus Reyes, a confident Latino man in his mid-30s, dark background, subtle technical aesthetic, high contrast, photorealistic"
+    },
+    {
+      "id": "priya-anand",
+      "cluster": "engineering",
+      "name": "Priya Anand",
+      "voice": [
+        "precise",
+        "code-first",
+        "math-friendly",
+        "production-minded"
+      ],
+      "bio_short": "ML engineer turned MLOps, ex-FAANG. Builds and breaks AI pipelines at scale. Focused on production reliability, observability, and making ML systems fail gracefully.",
+      "bio_long": "Priya Anand spent five years at a major tech company building large-scale ML infrastructure before pivoting to AI reliability engineering. She writes about the gap between research-paper ML and production ML \u2014 monitoring blind spots, pipeline fragility, and the operational realities of deploying models at scale. Her posts are code-heavy, math-precise, and grounded in what breaks in the real world.",
+      "sites": [
+        "llmops-report",
+        "mlmonitoring-report",
+        "mlobserve-com",
+        "mlopsplatforms-com",
+        "sentryml-com"
+      ],
+      "avatar_prompt": "Professional headshot of Priya Anand, an Indian woman in her early 30s, clean technical background, thoughtful expression, photorealistic"
+    },
+    {
+      "id": "theo-voss",
+      "cluster": "news",
+      "name": "Theo Voss",
+      "voice": [
+        "journalistic",
+        "who-what-when",
+        "quote-heavy",
+        "neutral-but-sharp"
+      ],
+      "bio_short": "Former cybersecurity beat reporter. Now covering the AI security incident beat \u2014 breach disclosures, regulatory actions, and the week's most important threat intel.",
+      "bio_long": "Theo Voss covered cybersecurity for a national tech publication for four years before moving into independent AI security journalism. He writes with a journalist's discipline: primary sources, named quotes where possible, and a clear distinction between confirmed facts and speculation. He curates the AI incident beat daily and publishes weekly digest-style roundups across the news cluster.",
+      "sites": [
+        "ai-alert-org",
+        "aiincidents-org",
+        "aisecdigest-com",
+        "aisecweekly-com",
+        "techsentinel-news"
+      ],
+      "avatar_prompt": "Professional headshot of Theo Voss, a white man in his late 30s, journalistic look, neutral office background, photorealistic"
+    },
+    {
+      "id": "hannah-linden",
+      "cluster": "policy",
+      "name": "Hannah Linden",
+      "voice": [
+        "measured",
+        "regulation-aware",
+        "EU-perspective",
+        "citation-heavy"
+      ],
+      "bio_short": "Privacy-tech policy researcher. Covers GDPR, the EU AI Act, and global AI governance. Writes for practitioners who need to understand the legal landscape, not just the technical one.",
+      "bio_long": "Hannah Linden researches the intersection of AI systems and privacy law, with a focus on EU and US regulatory frameworks. She holds an LLM with a focus on technology law and has advised on GDPR compliance for AI companies. Her writing translates regulatory complexity for technical teams who need to know what compliance actually requires \u2014 not just what regulators say in press releases.",
+      "sites": [
+        "aiprivacy-report",
+        "neuralwatch-org"
+      ],
+      "avatar_prompt": "Professional headshot of Hannah Linden, a blonde European woman in her early 40s, professional background, thoughtful look, photorealistic"
+    },
+    {
+      "id": "daniel-park",
+      "cluster": "defensive",
+      "name": "Daniel Park",
+      "voice": [
+        "analytical",
+        "MITRE-citing",
+        "blue-team practitioner",
+        "systematic"
+      ],
+      "bio_short": "Detection engineer and MITRE ATLAS contributor. Writes about defending AI systems using structured frameworks \u2014 not vendor hype. Blue-team-first, skeptical of AI-solves-everything narratives.",
+      "bio_long": "Daniel Park is a detection engineer who has spent the last six years building AI-aware defensive systems for financial services and critical infrastructure. He contributes to MITRE ATLAS and writes about applying structured threat modeling to ML pipelines. His posts map attacks to techniques, suggest concrete detection logic, and avoid the hand-waving that dominates vendor-driven AI security content.",
+      "sites": [
+        "aidefense-dev",
+        "aimoderationtools-com",
+        "aisecbench-com",
+        "aisecreviews-com",
+        "bestaisecuritytools-com",
+        "bestllmscanners-com",
+        "guardml-io"
+      ],
+      "avatar_prompt": "Professional headshot of Daniel Park, a Korean-American man in his mid-30s, dark technical background, analytical expression, photorealistic"
+    }
+  ],
+  "cluster_map": {
+    "offensive": "marcus-reyes",
+    "engineering": "priya-anand",
+    "news": "theo-voss",
+    "policy": "hannah-linden",
+    "defensive": "daniel-park"
+  },
+  "site_to_persona": {
+    "aisec-blog": "marcus-reyes",
+    "aiattacks-dev": "marcus-reyes",
+    "jailbreakdb-com": "marcus-reyes",
+    "jailbreaks-fyi": "marcus-reyes",
+    "adversarialml-dev": "marcus-reyes",
+    "llmops-report": "priya-anand",
+    "mlmonitoring-report": "priya-anand",
+    "mlobserve-com": "priya-anand",
+    "mlopsplatforms-com": "priya-anand",
+    "aisecbench-com": "priya-anand",
+    "ai-alert-org": "theo-voss",
+    "aiincidents-org": "theo-voss",
+    "aisecweekly-com": "theo-voss",
+    "aisecdigest-com": "theo-voss",
+    "techsentinel-news": "theo-voss",
+    "aiprivacy-report": "hannah-linden",
+    "promptinjection-report": "hannah-linden",
+    "aimoderationtools-com": "hannah-linden",
+    "aidefense-dev": "hannah-linden",
+    "neuralwatch-org": "hannah-linden",
+    "sentryml-com": "daniel-park",
+    "guardml-io": "daniel-park",
+    "bestaisecuritytools-com": "daniel-park",
+    "bestllmscanners-com": "daniel-park",
+    "aisecreviews-com": "daniel-park",
+    "mlcves-com": "daniel-park"
+  },
+  "_note": "Nick approves or replaces persona names. After approval, run backfill to rewrite all post bylines and regenerate avatar images via aisec-imagegen."
+}

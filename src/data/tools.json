@@ -1,0 +1,155 @@
+{
+  "title": "AI Defense, Guardrails & Output Filtering Tools",
+  "description": "Curated tools for protecting LLM applications — input filters, output classifiers, guardrails frameworks, and runtime defenses.",
+  "categories": [
+    {
+      "name": "Guardrail Frameworks",
+      "tools": [
+        {
+          "name": "NeMo Guardrails",
+          "url": "https://github.com/NVIDIA/NeMo-Guardrails",
+          "license": "Apache 2.0",
+          "blurb": "NVIDIA's framework for adding programmable rails to LLM applications — input checks, output filters, dialog flow constraints.",
+          "our_take": "The most mature open-source guardrails framework. Colang DSL is opinionated but expressive. Production-ready for LangChain-style apps."
+        },
+        {
+          "name": "Guardrails AI",
+          "url": "https://github.com/guardrails-ai/guardrails",
+          "license": "Apache 2.0",
+          "blurb": "Pydantic-style validators (Validators Hub) for LLM I/O — schema enforcement, PII detection, jailbreak detection, factuality checks.",
+          "our_take": "Best fit for structured-output use cases. Validator marketplace is growing fast. Use alongside NeMo for full coverage."
+        },
+        {
+          "name": "Llama Guard",
+          "url": "https://huggingface.co/meta-llama/Llama-Guard-3-8B",
+          "license": "Llama Community",
+          "blurb": "Meta's open-weights safety classifier — labels conversations across MLCommons hazard taxonomy.",
+          "our_take": "Self-hostable safety classifier. Good baseline for input/output classification when you can't send traffic to a vendor API."
+        },
+        {
+          "name": "ShieldGemma",
+          "url": "https://huggingface.co/google/shieldgemma-9b",
+          "license": "Gemma",
+          "blurb": "Google's safety classifier built on Gemma — categorical scoring across harm classes.",
+          "our_take": "Comparable to Llama Guard. Pick based on whichever family you already use as your generation model."
+        }
+      ]
+    },
+    {
+      "name": "Output Classifiers & Detectors",
+      "tools": [
+        {
+          "name": "Lakera Guard",
+          "url": "https://www.lakera.ai/",
+          "license": "Commercial",
+          "blurb": "API-based prompt injection and content safety classifier with low-latency inference.",
+          "our_take": "Production-grade if you're willing to send traffic to a vendor. Good detection rates on known attack patterns; less effective against novel attacks."
+        },
+        {
+          "name": "Prompt Guard",
+          "url": "https://huggingface.co/meta-llama/Prompt-Guard-86M",
+          "license": "Llama Community",
+          "blurb": "Meta's lightweight prompt-injection and jailbreak classifier — 86M parameters, easy to self-host.",
+          "our_take": "Great latency story — ~10ms per check on a small GPU. Use as a first-pass filter; fall through to a heavier classifier on flagged inputs."
+        },
+        {
+          "name": "Microsoft Presidio",
+          "url": "https://github.com/microsoft/presidio",
+          "license": "MIT",
+          "blurb": "PII detection and anonymization framework — extensible recognizers, format-preserving redaction.",
+          "our_take": "Industry standard for PII detection. Use upstream of LLM calls and downstream of LLM outputs both."
+        }
+      ]
+    },
+    {
+      "name": "Observability & Monitoring",
+      "tools": [
+        {
+          "name": "Langfuse",
+          "url": "https://langfuse.com/",
+          "license": "MIT (self-host) or SaaS",
+          "blurb": "LLM observability platform — traces, evals, prompt management. Strong open-source story.",
+          "our_take": "The dominant OSS LLM observability tool. Self-hostable; SaaS is reasonably priced. Pair with eval suites for full coverage."
+        },
+        {
+          "name": "LangSmith",
+          "url": "https://www.langchain.com/langsmith",
+          "license": "Commercial",
+          "blurb": "LangChain's hosted observability + eval platform — tight integration with LangChain SDKs.",
+          "our_take": "Great if you're all-in on LangChain. Vendor-locked design otherwise. Langfuse is the more portable alternative."
+        },
+        {
+          "name": "Phoenix (Arize)",
+          "url": "https://github.com/Arize-ai/phoenix",
+          "license": "Elastic",
+          "blurb": "OSS LLM and ML observability with embeddings analysis, drift detection, and trace inspection.",
+          "our_take": "Strong for combined ML + LLM workloads. Drift detection capabilities go further than most LLM-only tools."
+        },
+        {
+          "name": "Helicone",
+          "url": "https://www.helicone.ai/",
+          "license": "Apache 2.0 (self-host) or SaaS",
+          "blurb": "OpenAI-proxy-style observability — drop-in for OpenAI/Anthropic SDK, captures all calls.",
+          "our_take": "Lowest-friction observability — change one base URL and you have logs. Trades depth for installation speed."
+        }
+      ]
+    },
+    {
+      "name": "Vector DB & RAG Defense",
+      "tools": [
+        {
+          "name": "Robust Intelligence (Cisco)",
+          "url": "https://www.robustintelligence.com/",
+          "license": "Commercial",
+          "blurb": "Continuous AI validation and runtime protection — focused on model risk management for enterprises.",
+          "our_take": "Enterprise-grade. Pricing reflects the segment. Worth evaluating if you have compliance scope."
+        },
+        {
+          "name": "ProtectAI Recon",
+          "url": "https://protectai.com/recon",
+          "license": "Commercial",
+          "blurb": "Runtime LLM firewall and continuous red-team — uses ai-exploits and other internal databases.",
+          "our_take": "Full-stack from infrastructure to runtime. Their open-source ai-exploits repo is a quality signal."
+        }
+      ]
+    },
+    {
+      "name": "Cryptographic & Privacy",
+      "tools": [
+        {
+          "name": "Microsoft SEAL",
+          "url": "https://github.com/microsoft/SEAL",
+          "license": "MIT",
+          "blurb": "Homomorphic encryption library — enables computation on encrypted data, including ML inference.",
+          "our_take": "Heavy lift for production but real for high-stakes private inference. Pair with TenSEAL for ML-specific helpers."
+        },
+        {
+          "name": "Opacus",
+          "url": "https://opacus.ai/",
+          "license": "Apache 2.0",
+          "blurb": "PyTorch library for training models with differential privacy — adds noise during gradient updates.",
+          "our_take": "The reference DP-SGD implementation. Performance hit is real (1.5-3x slower training) but workable."
+        }
+      ]
+    },
+    {
+      "name": "Sandboxing & Isolation",
+      "tools": [
+        {
+          "name": "Modal Sandboxes",
+          "url": "https://modal.com/docs/guide/sandboxes",
+          "license": "Commercial",
+          "blurb": "Lightweight per-call sandboxes for LLM-invoked code execution — ms-scale boot, network isolation.",
+          "our_take": "Best UX for letting agents run code safely. Costs add up at high call volume; cheaper than building your own sandbox infra."
+        },
+        {
+          "name": "E2B",
+          "url": "https://e2b.dev/",
+          "license": "Apache 2.0 / SaaS",
+          "blurb": "Secure cloud runtime for AI-generated code — Firecracker microVMs, language-specific SDKs.",
+          "our_take": "Open-source backend, hosted convenience. Good middle ground between Modal and rolling your own."
+        }
+      ]
+    }
+  ]
+}

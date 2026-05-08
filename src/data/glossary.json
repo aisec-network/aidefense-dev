@@ -1,0 +1,398 @@
+{
+  "canonical_site": "aisec.blog",
+  "description": "A comprehensive AI security glossary covering attacks, defenses, frameworks, regulations, and operational concepts.",
+  "terms": [
+    {
+      "term": "Prompt Injection",
+      "slug": "prompt-injection",
+      "definition": "An attack in which attacker-controlled text is interpreted by the LLM as instructions, overriding or hijacking the legitimate system prompt or user intent. Direct prompt injection arrives via user input; indirect prompt injection arrives through content the model retrieves or ingests.",
+      "see_also": ["indirect-prompt-injection", "jailbreak", "system-prompt"],
+      "category": "attacks"
+    },
+    {
+      "term": "Indirect Prompt Injection",
+      "slug": "indirect-prompt-injection",
+      "definition": "A variant of prompt injection in which the malicious payload is embedded in external data sources—web pages, documents, emails, database records, or tool outputs—rather than the direct user turn. Because the model treats retrieved content as trusted context, it can execute attacker instructions without any direct interaction between the attacker and the model.",
+      "see_also": ["prompt-injection", "rag-poisoning", "tool-call-abuse"],
+      "category": "attacks"
+    },
+    {
+      "term": "Jailbreak",
+      "slug": "jailbreak",
+      "definition": "A technique used by end users or red teamers to elicit policy-violating outputs from a safety-trained model. Unlike prompt injection, which exploits the model's instruction-following against an operator, jailbreaks treat the user as the adversary attempting to circumvent the model's own training-time constraints. Common strategies include role-play framing, many-shot prompting, and encoding tricks.",
+      "see_also": ["prompt-injection", "gcg-attack", "constitutional-ai"],
+      "category": "attacks"
+    },
+    {
+      "term": "GCG (Greedy Coordinate Gradient) Attack",
+      "slug": "gcg-attack",
+      "definition": "An optimization-based adversarial attack that uses gradient information from a white-box model to construct adversarial suffixes—short token sequences that, when appended to any prompt, reliably elicit harmful outputs. Introduced by Zou et al. (2023), GCG suffixes transfer across models and are considered a foundational automated jailbreak technique.",
+      "see_also": ["adversarial-suffix", "jailbreak", "transferability"],
+      "category": "attacks"
+    },
+    {
+      "term": "Adversarial Suffix",
+      "slug": "adversarial-suffix",
+      "definition": "A sequence of tokens, typically unintelligible to humans, that is appended to a prompt and optimized (often via gradient descent on a white-box model) to alter model behavior—most commonly to bypass safety filters. Adversarial suffixes are the output of attacks such as GCG and can exhibit transferability to black-box models.",
+      "see_also": ["gcg-attack", "adversarial-example", "transferability"],
+      "category": "attacks"
+    },
+    {
+      "term": "Model Extraction",
+      "slug": "model-extraction",
+      "definition": "An attack that recovers a functional approximation of a target model's behavior—or in some cases its weights or architecture—through systematic black-box querying. Model extraction violates intellectual property, enables downstream fine-tuning, and can be used to build white-box surrogate models for further adversarial attack development.",
+      "see_also": ["membership-inference-attack", "model-inversion"],
+      "category": "attacks"
+    },
+    {
+      "term": "Membership Inference Attack",
+      "slug": "membership-inference-attack",
+      "definition": "An attack that determines whether a specific data sample was present in a model's training set by analyzing model outputs, confidence scores, or loss values. Successful membership inference constitutes a privacy violation when training data is sensitive (e.g., medical records, private communications).",
+      "see_also": ["model-inversion", "differential-privacy", "model-extraction"],
+      "category": "attacks"
+    },
+    {
+      "term": "Data Poisoning",
+      "slug": "data-poisoning",
+      "definition": "An attack on the model training pipeline that corrupts training data to embed backdoors, degrade performance on targeted inputs, or shift model behavior at inference time. Poisoning can target pre-training corpora, fine-tuning datasets, or RLHF preference data, making detection especially difficult when the attacker has only partial control of the data supply chain.",
+      "see_also": ["supply-chain-attack", "rag-poisoning", "backdoor"],
+      "category": "attacks"
+    },
+    {
+      "term": "Model Inversion",
+      "slug": "model-inversion",
+      "definition": "An attack that reconstructs sensitive training samples by optimizing inputs to maximize model confidence on a target class or prediction. In LLMs, inversion-style attacks have recovered training text by exploiting memorization, particularly from models trained on small, repeated, or highly structured datasets.",
+      "see_also": ["membership-inference-attack", "differential-privacy"],
+      "category": "attacks"
+    },
+    {
+      "term": "Adversarial Example",
+      "slug": "adversarial-example",
+      "definition": "An input that has been deliberately perturbed—often imperceptibly to humans—to cause a model to produce an incorrect or attacker-desired output. Originating in computer vision (Szegedy et al., 2014), adversarial examples in NLP are constructed via token substitutions, character-level perturbations, or gradient-based suffix optimization, all while preserving semantic meaning to human readers.",
+      "see_also": ["adversarial-suffix", "gcg-attack", "transferability"],
+      "category": "attacks"
+    },
+    {
+      "term": "RAG Poisoning",
+      "slug": "rag-poisoning",
+      "definition": "An attack on retrieval-augmented generation pipelines that injects malicious documents or passages into the vector store or retrieval corpus. When the poisoned content is retrieved and placed in the LLM's context, it acts as an indirect prompt injection, steering outputs toward attacker-controlled responses.",
+      "see_also": ["indirect-prompt-injection", "rag", "vector-database"],
+      "category": "attacks"
+    },
+    {
+      "term": "Tool-Call Abuse / Confused Deputy",
+      "slug": "tool-call-abuse",
+      "definition": "An attack that exploits an LLM agent's tool-calling authority to perform unauthorized actions on behalf of an attacker. The model acts as a confused deputy—it has legitimate credentials and permissions, but an indirect prompt injection or jailbreak causes it to invoke those tools in ways the operator never intended, such as exfiltrating data or sending unauthorized requests.",
+      "see_also": ["indirect-prompt-injection", "agent", "capability-scoping"],
+      "category": "attacks"
+    },
+    {
+      "term": "Supply Chain Attack",
+      "slug": "supply-chain-attack",
+      "definition": "An attack that compromises ML models, libraries, training datasets, or deployment infrastructure upstream of the target deployment. Examples include distributing malicious model weights via Hugging Face, backdooring popular ML Python packages, or poisoning publicly available fine-tuning datasets. The Pickle format widely used for model serialization has no integrity guarantees and is a common attack vector.",
+      "see_also": ["data-poisoning", "model-extraction"],
+      "category": "attacks"
+    },
+    {
+      "term": "Model DoS",
+      "slug": "model-dos",
+      "definition": "An attack that causes excessive compute or memory consumption by crafting inputs that are expensive to process—such as maximally long contexts, highly repetitive tokens, or inputs that trigger worst-case attention patterns. Model DoS can degrade service availability, increase costs for operators, and is especially impactful against models with quadratic attention complexity.",
+      "see_also": ["context-window", "tokenization"],
+      "category": "attacks"
+    },
+    {
+      "term": "Multimodal Injection",
+      "slug": "multimodal-injection",
+      "definition": "A prompt injection attack delivered through non-text modalities such as images (e.g., text embedded in pixel regions), audio, video, or PDF documents. As multimodal models process diverse input types, attackers can embed instruction payloads in channels that lack the same scrutiny applied to text, such as invisible Unicode characters in PDFs or steganographically hidden text in images.",
+      "see_also": ["prompt-injection", "indirect-prompt-injection"],
+      "category": "attacks"
+    },
+    {
+      "term": "Guardrail",
+      "slug": "guardrail",
+      "definition": "Any mechanism—classifier, rule set, heuristic, or secondary model—that filters, classifies, or constrains LLM inputs and/or outputs to enforce operator policy. Guardrails can be implemented as input screening (pre-LLM), output screening (post-LLM), or in-context constraints (system prompt). Layered guardrails from multiple vendors increase robustness against bypass.",
+      "see_also": ["output-classifier", "input-sanitization", "trust-separation"],
+      "category": "defenses"
+    },
+    {
+      "term": "Output Classifier",
+      "slug": "output-classifier",
+      "definition": "A model or deterministic rule set that evaluates LLM-generated text for policy violations—such as harmful content, PII exposure, or prompt injection echoes—before returning the response to the user. Output classifiers form a defense-in-depth layer that operates independently of the primary model's safety training.",
+      "see_also": ["guardrail", "input-sanitization"],
+      "category": "defenses"
+    },
+    {
+      "term": "Perplexity Defense",
+      "slug": "perplexity-defense",
+      "definition": "A detection heuristic that identifies adversarial inputs by measuring their token-level perplexity under a reference language model. Adversarial suffixes produced by gradient-based attacks (e.g., GCG) often contain unnatural token sequences with anomalously high perplexity. Proposed by Alon and Kamfonas (2023), though it can be evaded by naturalness-constrained attack variants.",
+      "see_also": ["gcg-attack", "adversarial-suffix", "guardrail"],
+      "category": "defenses"
+    },
+    {
+      "term": "Trust Separation",
+      "slug": "trust-separation",
+      "definition": "An architectural pattern that assigns distinct privilege levels to different data planes flowing into an LLM: operator-controlled system prompts receive high trust, user input receives medium trust, and retrieved or external content receives low trust. Strict trust separation prevents indirect prompt injection from escalating to system-prompt-level authority.",
+      "see_also": ["system-prompt", "indirect-prompt-injection", "capability-scoping"],
+      "category": "defenses"
+    },
+    {
+      "term": "Capability Scoping",
+      "slug": "capability-scoping",
+      "definition": "The practice of limiting the tools, APIs, and actions available to an LLM agent to the minimum set required for its intended task. By reducing the agent's capability surface, capability scoping limits the blast radius of a successful prompt injection or jailbreak that attempts to abuse the agent's tool-calling authority.",
+      "see_also": ["tool-call-abuse", "trust-separation", "agent"],
+      "category": "defenses"
+    },
+    {
+      "term": "Input Sanitization",
+      "slug": "input-sanitization",
+      "definition": "Pre-processing applied to user inputs before they are passed to the LLM, designed to detect and remove or neutralize injection payloads, malicious formatting, or policy-violating content. Techniques include instruction-keyword filtering, delimiters, XML/JSON escaping, and classifier-based screening. Sanitization is a necessary but insufficient defense in isolation.",
+      "see_also": ["guardrail", "output-classifier", "perplexity-defense"],
+      "category": "defenses"
+    },
+    {
+      "term": "Constitutional AI",
+      "slug": "constitutional-ai",
+      "definition": "Anthropic's training methodology in which a model is guided to follow a written set of principles (a 'constitution') through self-critique and revision during training, reducing dependence on human-annotated RLHF data for harmlessness. The model is prompted to identify and correct its own policy violations before a preference model scores the outputs, enabling scalable oversight.",
+      "see_also": ["rlhf", "guardrail"],
+      "category": "defenses"
+    },
+    {
+      "term": "RLHF (Reinforcement Learning from Human Feedback)",
+      "slug": "rlhf",
+      "definition": "A post-training technique that fine-tunes a language model to align with human preferences by using a reward model trained on human comparison judgments. A policy is optimized via proximal policy optimization (PPO) to maximize reward model scores. RLHF is the dominant post-training alignment method for commercial LLMs and directly shapes how models respond to sensitive requests.",
+      "see_also": ["constitutional-ai", "fine-tuning"],
+      "category": "defenses"
+    },
+    {
+      "term": "Differential Privacy",
+      "slug": "differential-privacy",
+      "definition": "A mathematical framework providing a formal guarantee that the inclusion or exclusion of any single training example changes model outputs by at most a bounded amount (epsilon). Applied to ML training via DP-SGD (Abadi et al., 2016), it defends against membership inference and model inversion attacks by injecting calibrated Gaussian or Laplace noise into gradients during training.",
+      "see_also": ["membership-inference-attack", "model-inversion"],
+      "category": "defenses"
+    },
+    {
+      "term": "SmoothLLM",
+      "slug": "smoothllm",
+      "definition": "A defense against jailbreaking attacks that works by randomly perturbing copies of the input prompt and aggregating the results through majority voting. Proposed by Robey et al. (2023), SmoothLLM exploits the observation that adversarial suffixes are fragile: even small random character substitutions degrade attack effectiveness, while benign prompts remain interpretable.",
+      "see_also": ["jailbreak", "gcg-attack", "adversarial-suffix"],
+      "category": "defenses"
+    },
+    {
+      "term": "RAG (Retrieval-Augmented Generation)",
+      "slug": "rag",
+      "definition": "An architecture that augments LLM generation by retrieving relevant documents from an external datastore—typically a vector database—and injecting them into the context window before generation. RAG extends a model's effective knowledge beyond its training cutoff and reduces hallucination on knowledge-intensive tasks, but also introduces the retrieval corpus as an attack surface for poisoning and indirect injection.",
+      "see_also": ["vector-database", "embedding", "rag-poisoning"],
+      "category": "infrastructure"
+    },
+    {
+      "term": "Vector Database",
+      "slug": "vector-database",
+      "definition": "A storage system optimized for high-dimensional embedding lookup via approximate nearest-neighbor (ANN) search algorithms such as HNSW or IVF-PQ. Vector databases (e.g., Pinecone, Weaviate, Qdrant, pgvector) are the primary retrieval backend for RAG systems. Their security properties—access control, update integrity, and query isolation—directly affect RAG pipeline security.",
+      "see_also": ["rag", "embedding"],
+      "category": "infrastructure"
+    },
+    {
+      "term": "Embedding",
+      "slug": "embedding",
+      "definition": "A dense, fixed-dimensional numerical representation of text or other content produced by an encoder model. Semantically similar inputs map to nearby points in the embedding space, enabling similarity-based retrieval. Embeddings underpin vector database search in RAG systems and are also used as features in classifiers, including content moderation models.",
+      "see_also": ["vector-database", "rag"],
+      "category": "infrastructure"
+    },
+    {
+      "term": "Agent",
+      "slug": "agent",
+      "definition": "An LLM-based system capable of planning multi-step tasks, invoking external tools, and maintaining state across interaction turns. Agents amplify LLM utility but also expand the attack surface: each tool call is a potential confused-deputy vulnerability, and multi-step reasoning chains can be hijacked by injections encountered mid-execution.",
+      "see_also": ["tool-call-abuse", "capability-scoping", "tool-calling"],
+      "category": "infrastructure"
+    },
+    {
+      "term": "Tool Calling / Function Calling",
+      "slug": "tool-calling",
+      "definition": "An API capability that allows an LLM to invoke structured external functions by generating JSON payloads conforming to a predefined schema. The runtime interprets the JSON and executes the corresponding function (e.g., search, send_email, execute_sql). Tool calling is the mechanism through which agent authority is exercised and through which tool-call abuse attacks operate.",
+      "see_also": ["agent", "tool-call-abuse", "capability-scoping"],
+      "category": "infrastructure"
+    },
+    {
+      "term": "System Prompt",
+      "slug": "system-prompt",
+      "definition": "Instructions provided to an LLM by the application operator before any user turns, typically not visible to the end user. The system prompt establishes persona, scope, and safety constraints for a deployment. Because models are trained to respect system prompt authority, extracting or overriding the system prompt is a common goal of prompt injection and jailbreak attacks.",
+      "see_also": ["prompt-injection", "trust-separation"],
+      "category": "infrastructure"
+    },
+    {
+      "term": "Context Window",
+      "slug": "context-window",
+      "definition": "The maximum number of tokens an LLM can process in a single forward pass. The context window bounds how much conversation history, system prompt content, retrieved documents, and tool outputs can be included simultaneously. Filling the context window with attacker-controlled content can dilute or displace legitimate instructions—a technique sometimes called context overflow.",
+      "see_also": ["tokenization", "rag", "model-dos"],
+      "category": "infrastructure"
+    },
+    {
+      "term": "Fine-tuning",
+      "slug": "fine-tuning",
+      "definition": "Supervised continued training applied to a pre-trained foundation model on a task-specific dataset to adapt its behavior without retraining from scratch. Fine-tuning is the primary method for specializing foundation models and is increasingly exposed as an API feature (e.g., OpenAI fine-tuning API), making it a potential attack vector for eroding safety alignment via adversarial fine-tuning datasets.",
+      "see_also": ["foundation-model", "rlhf", "data-poisoning"],
+      "category": "infrastructure"
+    },
+    {
+      "term": "Foundation Model",
+      "slug": "foundation-model",
+      "definition": "A large-scale model trained on broad, diverse data using self-supervised objectives and subsequently adapted to downstream tasks via fine-tuning, prompting, or RLHF. GPT-4, Claude 3, Gemini 1.5, and Llama 3 are examples. Foundation models concentrate capability and risk: a vulnerability in the base model propagates to every downstream application built on it.",
+      "see_also": ["fine-tuning", "rlhf", "model-extraction"],
+      "category": "infrastructure"
+    },
+    {
+      "term": "Tokenization",
+      "slug": "tokenization",
+      "definition": "The process of splitting raw text into discrete tokens—typically sub-word units derived via byte-pair encoding (BPE) or SentencePiece—before feeding them to an LLM. Tokenization quirks create security-relevant edge cases: homoglyphs, unusual Unicode, and token-boundary straddling can cause injection filters to miss payloads that the model nonetheless interprets as instructions.",
+      "see_also": ["context-window", "adversarial-suffix"],
+      "category": "infrastructure"
+    },
+    {
+      "term": "Temperature",
+      "slug": "temperature",
+      "definition": "A sampling hyperparameter that scales the logit distribution before softmax, controlling output randomness. Temperature 0 approaches greedy decoding (maximally deterministic); higher values (e.g., 1.0–2.0) increase output diversity. From a security perspective, deterministic sampling makes attack success rates reproducible, while high temperatures can cause safety guardrails to be bypassed stochastically.",
+      "see_also": ["context-window"],
+      "category": "infrastructure"
+    },
+    {
+      "term": "MMLU (Massive Multitask Language Understanding)",
+      "slug": "mmlu",
+      "definition": "A benchmark measuring zero-shot and few-shot knowledge across 57 academic subjects spanning STEM, humanities, social sciences, and professional domains (Hendrycks et al., 2021). MMLU is widely used as a proxy for general intelligence in foundation model comparisons. Its heavy reliance on multiple-choice format limits its ability to capture generative capability and is susceptible to contamination.",
+      "see_also": ["contamination", "eval-set", "big-bench"],
+      "category": "evaluation"
+    },
+    {
+      "term": "BIG-bench",
+      "slug": "big-bench",
+      "definition": "A collaborative benchmark comprising 204 diverse tasks contributed by researchers specifically designed to probe LLM capabilities that resist simple pattern-matching—including logical reasoning, causal understanding, and social cognition. BIG-bench Hard (BBH) further isolates 23 tasks where models initially performed near chance, providing a more discriminating capability signal.",
+      "see_also": ["mmlu", "eval-set"],
+      "category": "evaluation"
+    },
+    {
+      "term": "Eval Set",
+      "slug": "eval-set",
+      "definition": "A held-out dataset used exclusively to measure model performance after training, distinct from training and validation sets. In security contexts, eval sets include adversarial behavior benchmarks (HarmBench, JailbreakBench) and capability assessments. The integrity of an eval set is critical: contamination or adaptive overfitting to public benchmarks renders scores meaningless.",
+      "see_also": ["contamination", "harmbench", "jailbreakbench"],
+      "category": "evaluation"
+    },
+    {
+      "term": "Contamination",
+      "slug": "contamination",
+      "definition": "The presence of benchmark test examples in a model's training data, causing the model to effectively memorize answers rather than generalize, inflating reported scores and producing misleading comparisons. Contamination is difficult to detect when training data provenance is opaque and is a significant concern for any public benchmark dataset.",
+      "see_also": ["eval-set", "mmlu"],
+      "category": "evaluation"
+    },
+    {
+      "term": "Transferability",
+      "slug": "transferability",
+      "definition": "The property of adversarial examples or attack strategies that cause them to succeed against models other than the one used during attack development. Black-box transferability—where attacks optimized on a white-box source model succeed against proprietary target models—is what makes gradient-based attacks practically threatening and complicates defenses that rely on model obscurity.",
+      "see_also": ["adversarial-example", "adversarial-suffix", "gcg-attack"],
+      "category": "evaluation"
+    },
+    {
+      "term": "Drift",
+      "slug": "drift",
+      "definition": "A statistical change in model input distribution (data drift) or in the relationship between inputs and desired outputs (concept drift) that occurs over time in production. For LLM deployments, drift manifests as degrading response quality, increasing refusal rates, or emergent failure modes. Monitoring for drift requires tracking output distributions and user feedback signals continuously.",
+      "see_also": ["observability"],
+      "category": "evaluation"
+    },
+    {
+      "term": "Observability",
+      "slug": "observability",
+      "definition": "The capability to understand and measure the internal state of an LLM application from its external outputs, typically implemented via distributed traces, structured logs, and metrics. LLM-specific observability tooling (e.g., LangSmith, Weights & Biases, Helicone) captures prompt/completion pairs, token counts, latency, and safety classifier outcomes to support debugging, auditing, and drift detection.",
+      "see_also": ["drift", "eval-set"],
+      "category": "evaluation"
+    },
+    {
+      "term": "HarmBench",
+      "slug": "harmbench",
+      "definition": "A standardized evaluation framework for automated red teaming of LLMs, introduced by Mazeika et al. (2024). HarmBench comprises 510 harmful behaviors across seven categories (standard, contextual, copyright, cybersecurity, chemical/biological, misinformation, and multimodal) and includes a reproducible evaluation pipeline with a fine-tuned classifier for scoring attack success.",
+      "see_also": ["jailbreakbench", "eval-set", "jailbreak"],
+      "category": "evaluation"
+    },
+    {
+      "term": "JailbreakBench",
+      "slug": "jailbreakbench",
+      "definition": "An open artifact for tracking progress on LLM jailbreaking research, providing a standardized set of 100 harmful behaviors, a reproducible evaluation pipeline using GPT-4 as judge, a public leaderboard of attack and defense performance, and a versioned archive of adversarial prompts. Its standardization enables fair comparison across attack methods and temporal tracking of model robustness.",
+      "see_also": ["harmbench", "jailbreak", "eval-set"],
+      "category": "evaluation"
+    },
+    {
+      "term": "OWASP LLM Top 10",
+      "slug": "owasp-llm-top-10",
+      "definition": "The Open Web Application Security Project's ranked list of the ten most critical security risks for applications built on large language models. First published in 2023 and updated in 2025, it covers risks including prompt injection, insecure output handling, training data poisoning, model denial of service, and excessive agency. It serves as the primary developer-oriented security checklist for LLM application teams.",
+      "see_also": ["prompt-injection", "data-poisoning", "tool-call-abuse"],
+      "category": "standards"
+    },
+    {
+      "term": "MITRE ATLAS",
+      "slug": "mitre-atlas",
+      "definition": "The Adversarial Threat Landscape for AI Systems, a MITRE framework that catalogs adversarial ML attack techniques, tactics, and case studies in a matrix structure analogous to MITRE ATT&CK. ATLAS enables security teams to model AI-specific threats, map defensive controls, and conduct tabletop exercises. Its case study database covers real-world AI security incidents across industry verticals.",
+      "see_also": ["owasp-llm-top-10", "nist-ai-rmf"],
+      "category": "standards"
+    },
+    {
+      "term": "EU AI Act",
+      "slug": "eu-ai-act",
+      "definition": "The European Union's comprehensive AI regulation, which classifies AI systems into risk tiers—prohibited, high-risk, limited-risk, and minimal-risk—and imposes corresponding obligations on providers and deployers. It entered into force in August 2024 with a phased compliance timeline. High-risk applications (e.g., biometric identification, critical infrastructure, employment decisions) face requirements including conformity assessments, logging, and human oversight.",
+      "see_also": ["gdpr", "nist-ai-rmf", "model-card"],
+      "category": "standards"
+    },
+    {
+      "term": "GDPR",
+      "slug": "gdpr",
+      "definition": "The General Data Protection Regulation, the EU's comprehensive personal data processing law. GDPR applies to AI systems that process EU residents' personal data during training or inference. Key implications for ML include restrictions on automated decision-making (Article 22), data minimization requirements that constrain training data collection, and breach notification obligations that extend to model outputs containing PII.",
+      "see_also": ["eu-ai-act", "differential-privacy"],
+      "category": "standards"
+    },
+    {
+      "term": "NIST AI RMF",
+      "slug": "nist-ai-rmf",
+      "definition": "The NIST AI Risk Management Framework, a voluntary framework for identifying, assessing, and managing AI risks, structured around four core functions: Govern (establish accountability), Map (identify context and risks), Measure (assess and analyze risks), and Manage (prioritize and treat risks). Published in January 2023, the AI RMF is increasingly referenced in US federal AI procurement and governance requirements.",
+      "see_also": ["mitre-atlas", "eu-ai-act", "model-card"],
+      "category": "standards"
+    },
+    {
+      "term": "Model Card",
+      "slug": "model-card",
+      "definition": "A short document accompanying a model release that discloses intended use cases, out-of-scope applications, training data sources and limitations, evaluation results across demographic groups and adversarial conditions, and ethical considerations. Model cards, introduced by Mitchell et al. (2019), are now a de facto standard for major model releases and are becoming a regulatory expectation under the EU AI Act.",
+      "see_also": ["eu-ai-act", "nist-ai-rmf", "eval-set"],
+      "category": "standards"
+    },
+    {
+      "term": "Backdoor",
+      "slug": "backdoor",
+      "definition": "A hidden behavior embedded in a model during training that activates when the model receives a specific trigger pattern (e.g., a particular phrase, pixel pattern, or token sequence) and causes targeted misclassification or policy violation. Backdoors can be inserted via data poisoning or direct weight manipulation and are difficult to detect because the model behaves normally on trigger-free inputs.",
+      "see_also": ["data-poisoning", "supply-chain-attack"],
+      "category": "attacks"
+    },
+    {
+      "term": "Hallucination",
+      "slug": "hallucination",
+      "definition": "The tendency of LLMs to generate factually incorrect, fabricated, or internally inconsistent content with apparent confidence. In security contexts, hallucination is exploitable—adversaries can craft prompts that induce models to confabulate harmful content while appearing authoritative, and security systems relying on LLM reasoning for policy decisions are vulnerable to hallucination-induced false negatives.",
+      "see_also": ["rag", "eval-set"],
+      "category": "ml-concepts"
+    },
+    {
+      "term": "Memorization",
+      "slug": "memorization",
+      "definition": "The phenomenon in which a trained model stores and can reproduce verbatim fragments of its training data, particularly data that appears repeatedly or is highly unique in the corpus. Memorization is the mechanism underlying training data extraction attacks and is a privacy risk when training data contains sensitive information such as PII, credentials, or proprietary content.",
+      "see_also": ["model-inversion", "membership-inference-attack", "differential-privacy"],
+      "category": "ml-concepts"
+    },
+    {
+      "term": "Attention Mechanism",
+      "slug": "attention-mechanism",
+      "definition": "The core computational primitive in transformer models that computes a weighted sum of value vectors for each token based on query-key similarity across all positions in the context window. Attention enables long-range dependency modeling but has O(n²) complexity in sequence length, creating both performance and security implications. Attention patterns have been used in interpretability research to understand how models process injected instructions.",
+      "see_also": ["context-window", "foundation-model"],
+      "category": "ml-concepts"
+    },
+    {
+      "term": "Red Teaming",
+      "slug": "red-teaming",
+      "definition": "A structured adversarial evaluation process in which a dedicated team attempts to elicit harmful, unsafe, or policy-violating behavior from an AI system before deployment. AI red teaming encompasses both manual creative attacks and automated attack pipelines (e.g., GCG, PAIR). Major labs conduct extensive red teaming prior to model releases and publish findings in system cards.",
+      "see_also": ["jailbreak", "harmbench", "jailbreakbench"],
+      "category": "evaluation"
+    }
+  ]
+}

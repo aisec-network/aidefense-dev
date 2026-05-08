@@ -1,0 +1,122 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { siteConfig } from "@config/site";
+import glossaryData from "@/data/glossary.json";
+
+interface Term {
+  term: string;
+  slug: string;
+  definition: string;
+  see_also?: string[];
+  category?: string;
+}
+
+interface Glossary {
+  canonical_site?: string;
+  description?: string;
+  terms: Term[];
+}
+
+const glossary = glossaryData as Glossary;
+const terms = (glossary.terms || []).slice().sort((a, b) =>
+  a.term.toLowerCase().localeCompare(b.term.toLowerCase())
+);
+const canonicalSite = glossary.canonical_site || "aisec.blog";
+const canonicalUrl = `https://${canonicalSite}/glossary`;
+const isCanonical = siteConfig.domain === canonicalSite;
+
+// Group by first letter
+const groups: Record<string, Term[]> = {};
+for (const t of terms) {
+  const letter = t.term[0]?.toUpperCase() || "#";
+  const key = /[A-Z]/.test(letter) ? letter : "#";
+  if (!groups[key]) groups[key] = [];
+  groups[key].push(t);
+}
+const letters = Object.keys(groups).sort();
+
+const slugToTerm = new Map(terms.map((t) => [t.slug, t.term]));
+
+const pageTitle = "Glossary";
+const pageDescription =
+  glossary.description ||
+  "AI security terminology — attacks, defenses, frameworks, regulations, and operational concepts, defined.";
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonical={isCanonical ? undefined : canonicalUrl}
+>
+  <article class="max-w-3xl mx-auto">
+    <header class="mb-10">
+      <h1 class="font-display font-bold text-4xl sm:text-5xl tracking-tight mb-4">{pageTitle}</h1>
+      <p class="text-lg text-muted leading-snug">{pageDescription}</p>
+      {!isCanonical && (
+        <p class="text-xs text-muted mt-3 font-mono">
+          Canonical version maintained at <a href={canonicalUrl} class="text-accent-700 hover:underline">{canonicalSite}</a>.
+        </p>
+      )}
+    </header>
+
+    <nav class="mb-12 not-prose sticky top-16 z-10 bg-[rgb(var(--bg)/0.92)] backdrop-blur py-3 -mx-4 px-4 border-b border-default" aria-label="Alphabetical jump">
+      <ul class="flex flex-wrap gap-1.5 text-sm font-mono">
+        {letters.map((l) => (
+          <li>
+            <a
+              href={`#letter-${l}`}
+              class="inline-flex items-center justify-center min-w-[2rem] h-8 px-2 rounded text-muted hover:text-accent-700 hover:bg-muted transition"
+            >
+              {l}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    {letters.map((letter) => (
+      <section id={`letter-${letter}`} class="mb-12 scroll-mt-32">
+        <h2 class="font-display font-bold text-2xl tracking-tight mb-4 text-accent-700">{letter}</h2>
+        <dl class="space-y-6">
+          {groups[letter].map((t) => (
+            <div id={t.slug} class="scroll-mt-32">
+              <dt class="flex flex-wrap items-baseline gap-3 mb-1.5">
+                <span class="font-display font-semibold text-lg">{t.term}</span>
+                {t.category && (
+                  <span class="text-xs uppercase tracking-wider text-muted font-mono">{t.category}</span>
+                )}
+                <a
+                  href={`#${t.slug}`}
+                  class="text-xs text-muted hover:text-accent-600 transition font-mono opacity-0 group-hover:opacity-100"
+                  aria-label={`Permalink to ${t.term}`}
+                >#</a>
+              </dt>
+              <dd class="text-base leading-relaxed text-[rgb(var(--fg))]">
+                <p>{t.definition}</p>
+                {t.see_also && t.see_also.length > 0 && (
+                  <p class="mt-2 text-sm text-muted">
+                    <span class="uppercase tracking-wider text-xs font-mono">See also:</span>{" "}
+                    {t.see_also.map((slug, i) => {
+                      const label = slugToTerm.get(slug) || slug;
+                      const exists = slugToTerm.has(slug);
+                      return (
+                        <>
+                          {exists ? (
+                            <a href={`#${slug}`} class="text-accent-700 hover:underline">{label}</a>
+                          ) : (
+                            <span>{label}</span>
+                          )}
+                          {i < t.see_also!.length - 1 ? ", " : ""}
+                        </>
+                      );
+                    })}
+                  </p>
+                )}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    ))}
+  </article>
+</BaseLayout>

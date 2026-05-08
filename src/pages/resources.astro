@@ -1,0 +1,92 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import resourcesData from "@/data/resources.json";
+
+interface Item {
+  title: string;
+  authors?: string;
+  url: string;
+  tag?: string;
+  description?: string;
+}
+
+interface Category {
+  name: string;
+  items: Item[];
+}
+
+interface Resources {
+  title?: string;
+  description?: string;
+  categories: Category[];
+}
+
+const resources = resourcesData as Resources;
+const categories = resources.categories || [];
+
+const pageTitle = resources.title || "Resources";
+const pageDescription =
+  resources.description ||
+  "Hand-picked papers, talks, frameworks, and communities for working in AI security.";
+
+function slugify(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <article class="max-w-4xl mx-auto">
+    <header class="mb-12">
+      <h1 class="font-display font-bold text-4xl sm:text-5xl tracking-tight mb-4">{pageTitle}</h1>
+      <p class="text-lg text-muted leading-snug max-w-2xl">{pageDescription}</p>
+    </header>
+
+    <nav class="mb-12 not-prose" aria-label="Resource categories">
+      <ul class="flex flex-wrap gap-2 text-sm">
+        {categories.map((cat) => (
+          <li>
+            <a
+              href={`#${slugify(cat.name)}`}
+              class="inline-block px-3 py-1.5 rounded-full bg-muted text-muted hover:text-accent-700 hover:bg-[rgb(var(--accent-100)/0.6)] transition font-mono"
+            >
+              {cat.name}
+              <span class="text-xs opacity-60 ml-1">({cat.items?.length || 0})</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    {categories.map((cat) => (
+      <section id={slugify(cat.name)} class="mb-14 scroll-mt-20">
+        <h2 class="font-display font-bold text-2xl sm:text-3xl tracking-tight mb-6 pb-2 border-b border-default">
+          {cat.name}
+        </h2>
+        <ul class="space-y-4">
+          {cat.items?.map((item) => (
+            <li class="flex flex-col sm:flex-row sm:items-baseline sm:gap-4 group">
+              <div class="flex-1 min-w-0">
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  class="font-display font-medium text-base hover:text-accent-600 transition"
+                >
+                  {item.title}
+                  <span class="inline-block ml-1 text-xs opacity-60" aria-hidden="true">↗</span>
+                </a>
+                {item.description && (
+                  <p class="text-sm text-muted mt-1 leading-relaxed">{item.description}</p>
+                )}
+                <div class="flex flex-wrap gap-x-3 gap-y-0.5 mt-1 text-xs font-mono text-muted">
+                  {item.authors && <span>{item.authors}</span>}
+                  {item.tag && <span class="text-accent-700">#{item.tag}</span>}
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </article>
+</BaseLayout>
