@@ -101,16 +101,31 @@ const plausibleDomain = siteConfig.analytics.plausibleDomain || new URL(siteConf
   />
 )}
 
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.title,
+    url: siteConfig.url,
+    logo: `${siteConfig.url}/og-default.png`,
+    sameAs: siteConfig.sister.map((s) => s.url),
+  })}
+/>
+
 {type === "website" && (
   <script
     type="application/ld+json"
     set:html={JSON.stringify({
       "@context": "https://schema.org",
-      "@type": "Organization",
-      name: siteConfig.title,
+      "@type": "WebSite",
       url: siteConfig.url,
-      logo: `${siteConfig.url}/og-default.png`,
-      sameAs: siteConfig.sister.map((s) => s.url),
+      name: siteConfig.title,
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${siteConfig.url}/search?q={search_term_string}`,
+        "query-input": "required name=search_term_string",
+      },
     })}
   />
 )}
