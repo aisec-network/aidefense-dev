@@ -1,11 +1,12 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "./BaseLayout.astro";
-import AffiliateDisclosure from "@components/AffiliateDisclosure.astro";
-import Comments from "@components/Comments.astro";
-import NewsletterSignup from "@components/NewsletterSignup.astro";
+import AffiliateDisclosure from "@shared/components/AffiliateDisclosure.astro";
+import Comments from "@shared/components/Comments.astro";
+import NewsletterSignup from "@shared/components/NewsletterSignup.astro";
 import { siteConfig } from "@config/site";
 import { clusters } from "@config/clusters";
+import { buildFAQSchema, buildHowToSchema, extractHowToSteps, isHowToPost, buildBreadcrumbSchema } from "@utils/schema";
 
 interface Props {
   frontmatter: {
@@ -26,9 +27,11 @@ interface Props {
   url: string;
   /** Slug of the current post — passed by [...slug].astro for related-post lookup. */
   slug?: string;
+  /** Raw markdown body — passed by [...slug].astro for FAQ/HowTo schema detection. */
+  rawBody?: string;
 }
 
-const { frontmatter, url, slug } = Astro.props;
+const { frontmatter, url, slug, rawBody } = Astro.props;
 const author = frontmatter.author || siteConfig.byline;
 const schemaType = frontmatter.schema?.type || "Article";
 const cluster = clusters[siteConfig.brand.cluster];
@@ -68,6 +71,21 @@ const articleSchema = {
   ...(frontmatter.tags?.length && { keywords: frontmatter.tags.join(", ") }),
 };
 
+// FAQPage schema — only emitted when post body contains a FAQ heading
+const faqSchemaJson = rawBody ? buildFAQSchema(rawBody) : null;
+
+// HowTo schema — only emitted when post is tagged as a tutorial/walkthrough
+const howToSchemaJson = (rawBody && isHowToPost(frontmatter.tags))
+  ? buildHowToSchema(frontmatter.title, extractHowToSteps(rawBody), frontmatter.description)
+  : null;
+
+const breadcrumbSchemaJson = buildBreadcrumbSchema(
+  new URL(url, siteConfig.url).toString(),
+  siteConfig.url,
+  frontmatter.title,
+  frontmatter.category
+);
+
 const dateStr = frontmatter.pubDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 const updatedStr = frontmatter.updatedDate?.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 const dropCapClass = cluster.postDropCaps ? "has-dropcap" : "";
@@ -80,7 +98,7 @@ const heroAspectClass =
 <BaseLayout
   title={frontmatter.title}
   description={frontmatter.description}
-  image={frontmatter.heroImage}
+  image={slug ? `/og/${slug}.png` : frontmatter.heroImage}
   canonical={frontmatter.canonical}
   type="article"
   publishedTime={frontmatter.pubDate}
@@ -90,6 +108,9 @@ const heroAspectClass =
   fullBleed
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+  {faqSchemaJson && <script type="application/ld+json" set:html={faqSchemaJson} />}
+  {howToSchemaJson && <script type="application/ld+json" set:html={howToSchemaJson} />}
+  {breadcrumbSchemaJson && <script type="application/ld+json" set:html={breadcrumbSchemaJson} />}
 
   {frontmatter.heroImage ? (
     <div class="relative w-full">

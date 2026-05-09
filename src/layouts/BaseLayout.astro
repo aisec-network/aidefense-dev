@@ -1,10 +1,11 @@
 ---
 import "@/styles/globals.css";
 import "@/styles/brand.css";
-import Head from "@components/Head.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
+import Head from "@shared/components/Head.astro";
+import Header from "@shared/components/Header.astro";
+import Footer from "@shared/components/Footer.astro";
 import { siteConfig } from "@config/site";
+import { buildWebSiteSchema } from "@utils/schema";
 import { hueToAccentRamp } from "@config/clusters";
 import { identity } from "@config/identity";
 
@@ -30,12 +31,18 @@ const accentVars = Object.entries(ramp)
   .map(([stop, rgb]) => `--accent-${stop}:${rgb};`)
   .join("");
 const inlineStyle = `--accent-hue:${identity.palette.hue};${accentVars}`;
+const websiteSchemaJson = buildWebSiteSchema({
+  title: siteConfig.title,
+  url: siteConfig.url,
+  description: siteConfig.description,
+});
 ---
 
 <!doctype html>
 <html lang={siteConfig.language}>
   <head>
     <Head {...props} />
+    <script type="application/ld+json" set:html={websiteSchemaJson} />
   </head>
   <body
     class={`min-h-screen flex flex-col density-${identity.layout.density} layout-${identity.layout.id} font-${identity.palette.neutral_family}`}
