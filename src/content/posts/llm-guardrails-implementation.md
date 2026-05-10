@@ -5,6 +5,7 @@ pubDate: 2026-05-08
 author: "AI Defense Editorial"
 tags: ["llm-guardrails", "ai-security", "llm-safety", "prompt-injection", "content-filtering"]
 category: "Defense"
+heroImage: /og-card.svg
 sources:
   - title: "LLM Guardrails: Best Practices for Deploying LLM Apps Securely — Datadog"
     url: "https://www.datadoghq.com/blog/llm-guardrails-best-practices/"
