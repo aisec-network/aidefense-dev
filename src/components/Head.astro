@@ -32,7 +32,7 @@ const fullTitle = title === siteConfig.title ? title : `${title} — ${siteConfi
 const url = canonical || new URL(Astro.url.pathname, siteConfig.url).toString();
 const ogImage = image
   ? new URL(image, siteConfig.url).toString()
-  : new URL("/og-default.png", siteConfig.url).toString();
+  : new URL("/og-card.svg", siteConfig.url).toString();
 
 const fontsHref = identity.font.google_fonts_url;
 const plausibleDomain = siteConfig.analytics.plausibleDomain || new URL(siteConfig.url).hostname;
@@ -108,7 +108,7 @@ const plausibleDomain = siteConfig.analytics.plausibleDomain || new URL(siteConf
     "@type": "Organization",
     name: siteConfig.title,
     url: siteConfig.url,
-    logo: `${siteConfig.url}/og-default.png`,
+    logo: `${siteConfig.url}/og-card.svg`,
     sameAs: siteConfig.sister.map((s) => s.url),
   })}
 />

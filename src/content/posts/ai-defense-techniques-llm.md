@@ -5,6 +5,8 @@ pubDate: 2026-05-08
 author: "AI Defense Editorial"
 tags: ["llm-security", "prompt-injection", "guardrails", "ai-defense", "red-teaming"]
 category: "Defense"
+heroImage: https://aisec-imagegen.th3gptoperator.workers.dev/featured/aidefense.dev/ai-defense-techniques-llm.png
+heroAlt: "AI defense techniques for LLMs — layered controls diagram"
 sources:
   - title: "OWASP Top 10 for LLM Applications 2025"
     url: "https://genai.owasp.org/llm-top-10/"
