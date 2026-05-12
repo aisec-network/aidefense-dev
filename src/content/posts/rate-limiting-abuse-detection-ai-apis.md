@@ -168,7 +168,7 @@ Rate limiting enforces quotas. Abuse detection identifies patterns that indicate
 
 Behavioral signals that indicate abuse:
 
-**High refusal-to-acceptance ratio**: legitimate users accept model responses most of the time. Users who retry repeatedly after guardrail triggers are often probing for bypass opportunities.
+**High refusal-to-acceptance ratio**: legitimate users accept model responses most of the time. Users who retry repeatedly after [guardrail](https://guardml.io/) triggers are often probing for bypass opportunities.
 
 **Prompt similarity clustering**: automated campaigns submit many variations of the same base prompt. Semantic similarity within a user's session history — measured with lightweight embeddings — identifies this pattern.
 
@@ -353,3 +353,9 @@ Rate limiting and abuse detection should be integrated with your broader guardra
 For teams building the full guardrail stack around rate limiting, the behavioral detection patterns here complement the output monitoring techniques described in the [sentryml.com](https://sentryml.com) MLOps observability guides — particularly the guardrail trigger rate monitoring that surfaces coordinated abuse as a time-series signal.
 
 Rate limiting and abuse detection are not UX problems to be minimized — they are security controls. The friction they create for automated abusers is the point.
+
+## See also
+
+- [AI content moderation tools](https://aimoderationtools.com/)
+- [AI security benchmarks](https://aisecbench.com/)
+- [AI security tool reviews](https://aisecreviews.com/)

@@ -94,7 +94,7 @@ Practical red teaming for LLM deployments includes:
 
 - **Automated adversarial probing.** Tools like Garak, Promptfoo, and DeepTeam automate attack generation against a target model, running hundreds of jailbreak attempts, injection payloads, and data-extraction probes.
 - **Jailbreak regression suites.** Maintain a database of known-bad prompts — including those logged from production — and run them against every new model version or system prompt change. The [jailbreaks.fyi](https://jailbreaks.fyi) catalog and [jailbreakdb.com](https://jailbreakdb.com) are useful starting points for building these suites.
-- **Red team/blue team loops.** Anthropic and other frontier labs have published results from automated red-team cycles where one model generates attacks and a second is fine-tuned to resist them. For enterprise deployments, a simpler version — a dedicated red team running weekly probes with findings fed back to the system prompt team — achieves meaningful coverage at low cost.
+- **[Red team](https://aisecbench.com/)/blue team loops.** Anthropic and other frontier labs have published results from automated red-team cycles where one model generates attacks and a second is fine-tuned to resist them. For enterprise deployments, a simpler version — a dedicated red team running weekly probes with findings fed back to the system prompt team — achieves meaningful coverage at low cost.
 
 ## Mapping Controls to OWASP and NIST
 

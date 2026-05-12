@@ -11,7 +11,7 @@ schema:
   type: "TechArticle"
 ---
 
-The most expensive way to discover that your LLM guardrails have a gap is when an attacker finds it first. The second most expensive way is to run a manual red team exercise once a quarter and ship changes between sessions without testing them. Neither is acceptable for a production system where the attack surface changes every time you update a system prompt, switch model versions, or add a new retrieval source.
+The most expensive way to discover that your LLM [guardrails](https://guardml.io/) have a gap is when an attacker finds it first. The second most expensive way is to run a manual [red team](https://aisecbench.com/) exercise once a quarter and ship changes between sessions without testing them. Neither is acceptable for a production system where the attack surface changes every time you update a system prompt, switch model versions, or add a new retrieval source.
 
 The solution is an automated adversarial testing pipeline — a continuous red team that runs against your LLM application in CI, catches regressions before deployment, and builds institutional knowledge about what attacks your system has been tested against and which ones succeeded. This post covers how to build one using open-source tooling, with patterns that work whether your team is three engineers or thirty.
 
@@ -311,3 +311,8 @@ Adversarial testing generates data that is useful both operationally and for gov
 These metrics give security leadership a quantitative picture of the LLM security posture that is independent of subjective assessments. A system with 200 probes, a 0.3% average attack success rate, and zero unresolved regressions older than two weeks is demonstrably more secure than one with a manual checklist and quarterly audits.
 
 Red-teaming is not a one-time exercise. The model changes, the system prompt evolves, and the attack landscape shifts. An automated adversarial testing pipeline that runs continuously is the only reliable way to know, at any point in time, whether your defenses are holding.
+
+## See also
+
+- [AI content moderation tools](https://aimoderationtools.com/)
+- [AI security tool reviews](https://aisecreviews.com/)

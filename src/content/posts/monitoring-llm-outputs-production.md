@@ -343,3 +343,9 @@ Logging strategy for LLM monitoring requires care because the content involved m
 A hash of the session's conversation content, stored alongside the numeric metrics, lets you correlate anomalies with specific conversations for investigation without storing the content itself. This balances debuggability against the security and compliance requirements of limiting where sensitive text is stored.
 
 Effective monitoring does not prevent attacks — it makes attacks visible quickly enough to respond before significant harm occurs. Combined with the static filtering and architectural controls described elsewhere in this series, it gives you a complete production defense posture.
+
+## See also
+
+- [AI content moderation tools](https://aimoderationtools.com/)
+- [AI security benchmarks](https://aisecbench.com/)
+- [AI security tool reviews](https://aisecreviews.com/)

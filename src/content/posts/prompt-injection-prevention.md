@@ -287,9 +287,11 @@ A hardened pipeline for a RAG-based assistant combining all four strategies:
 2. **Input routed** → quarantine model extracts structured facts from retrieved documents
 3. **Extracted facts** → ML classifier scores for adversarial content → reject if above threshold
 4. **Clean facts + user query** → privileged model with explicit instruction hierarchy in system prompt
-5. **Model output** → output filter (regex + semantic classifier) → block if flagged
+5. **Model output** → [output filter](https://aimoderationtools.com/) (regex + semantic classifier) → block if flagged
 6. **All steps logged** for anomaly detection
 
 No single layer in this stack is undefeatable. The goal is to ensure that defeating any one layer still leaves the attacker with at least two more independent controls to bypass — and that the cost of bypassing all of them simultaneously exceeds what any realistic attacker will invest against a typical deployment.
 
-Continuous adversarial testing validates that the stack holds. The next step after building these defenses is building a red team pipeline to prove them — which is the focus of the red-teaming post in this series.
+Continuous adversarial testing validates that the stack holds. The next step after building these defenses is building a [red team](https://aisecbench.com/) pipeline to prove them — which is the focus of the red-teaming post in this series.
+
+For more context, [AI security tool reviews](https://aisecreviews.com/) covers related topics in depth.

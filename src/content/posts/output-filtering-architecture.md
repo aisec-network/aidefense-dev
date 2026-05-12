@@ -28,7 +28,7 @@ The [promptinjection.report](https://promptinjection.report) taxonomy documents 
 
 ## The Three-Layer Stack
 
-A production output filter should run three distinct passes: fast deterministic checks, ML classifier scoring, and — selectively — LLM-as-judge evaluation. Each layer has a different cost/coverage profile.
+A production [output filter](https://aimoderationtools.com/) should run three distinct passes: fast deterministic checks, ML classifier scoring, and — selectively — LLM-as-judge evaluation. Each layer has a different cost/coverage profile.
 
 ### Layer 1: Regex and Pattern Guards (< 1ms)
 

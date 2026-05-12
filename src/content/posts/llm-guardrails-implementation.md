@@ -19,7 +19,7 @@ schema:
   type: "TechArticle"
 ---
 
-LLM guardrails implementation is one of the few areas where prototype-to-production transitions routinely break down. Engineers ship a chatbot that works fine in a sandbox, then hit real users — and discover that without structured controls at the input and output layers, the model leaks PII, gets jailbroken, or wanders into off-topic territory that violates the application's intended scope. This guide covers what effective guardrails actually look like in production, which layers matter, and how to avoid the most common failure modes.
+LLM [guardrails](https://guardml.io/) implementation is one of the few areas where prototype-to-production transitions routinely break down. Engineers ship a chatbot that works fine in a sandbox, then hit real users — and discover that without structured controls at the input and output layers, the model leaks PII, gets jailbroken, or wanders into off-topic territory that violates the application's intended scope. This guide covers what effective guardrails actually look like in production, which layers matter, and how to avoid the most common failure modes.
 
 ## What LLM Guardrails Are (and Aren't)
 

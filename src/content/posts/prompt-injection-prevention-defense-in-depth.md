@@ -283,11 +283,11 @@ def scan_for_injection_artifacts(model_output: str) -> OutputScanResult:
     return OutputScanResult(clean=True, artifact_type=None)
 ```
 
-Output scanning for injection artifacts is the last catch before a response reaches the user. It will not detect every successful injection — a sophisticated attacker who understands your output filter will craft injections that achieve their goal without triggering artifact patterns — but it catches the common cases where the model explicitly acknowledges receiving new instructions.
+Output scanning for injection artifacts is the last catch before a response reaches the user. It will not detect every successful injection — a sophisticated attacker who understands your [output filter](https://aimoderationtools.com/) will craft injections that achieve their goal without triggering artifact patterns — but it catches the common cases where the model explicitly acknowledges receiving new instructions.
 
 ## Layer 5: Continuous Adversarial Validation
 
-Defense-in-depth without ongoing testing degrades. Model updates change behavior, new injection techniques are publicly disclosed, and application changes may open new attack paths. The fifth layer is a continuous red-team pipeline that validates the stack holds.
+Defense-in-depth without ongoing testing degrades. Model updates change behavior, new injection techniques are publicly disclosed, and application changes may open new attack paths. The fifth layer is a continuous [red-team](https://aisecbench.com/) pipeline that validates the stack holds.
 
 ```python
 import asyncio
@@ -371,3 +371,8 @@ Each layer addresses a different phase of the attack:
 No layer is individually sufficient. A sophisticated attacker who understands your system can defeat any single control. The defense succeeds when the cost of defeating all layers simultaneously exceeds the attacker's motivation and resources — which, for most production deployments, it does.
 
 The architectural commitment this requires is real but not extraordinary. Privilege separation is a standard security engineering principle applied to a new context. Structural prompt design is a development practice, not a runtime cost. Continuous adversarial validation is a test discipline. The defenses are available; the question is whether the team commits to implementing them before or after a production incident.
+
+## See also
+
+- [AI security tool reviews](https://aisecreviews.com/)
+- [top AI security tools](https://bestaisecuritytools.com/)

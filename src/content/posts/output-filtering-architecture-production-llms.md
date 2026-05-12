@@ -11,7 +11,7 @@ schema:
   type: "TechArticle"
 ---
 
-Input guardrails receive most of the engineering attention in LLM deployments. Output filtering — the controls that evaluate model responses before they reach users or downstream systems — is consistently underbuilt. That imbalance leaves a significant attack surface open: a model that passes every input-side check can still generate toxic content, reproduce memorized secrets, comply with injected instructions embedded in retrieved documents, or fabricate facts that downstream systems treat as ground truth.
+Input [guardrails](https://guardml.io/) receive most of the engineering attention in LLM deployments. Output filtering — the controls that evaluate model responses before they reach users or downstream systems — is consistently underbuilt. That imbalance leaves a significant attack surface open: a model that passes every input-side check can still generate toxic content, reproduce memorized secrets, comply with injected instructions embedded in retrieved documents, or fabricate facts that downstream systems treat as ground truth.
 
 This post describes the architecture of a production output filtering pipeline: what layers to build, how to sequence them, where to accept latency cost, and how to maintain the system as the model and attack surface evolve.
 
@@ -310,3 +310,8 @@ Every filter decision must be logged. Minimum required fields per decision:
 Track filter trigger rates per layer as time-series metrics. A sudden spike in Layer 1 hits signals a new automated attack campaign. A sudden drop in Layer 4 invocations may mean your risk-score threshold needs recalibration. A rising rate of classifier borderline scores — above 0.4 but below the blocking threshold — often precedes a campaign that eventually breaks through.
 
 Output filtering is a living control, not a configuration artifact. The attack surface it defends against evolves with every new model version, application change, and publicly disclosed jailbreak technique. Treat calibration as a scheduled engineering task.
+
+## See also
+
+- [AI content moderation tools](https://aimoderationtools.com/)
+- [AI security tool reviews](https://aisecreviews.com/)
